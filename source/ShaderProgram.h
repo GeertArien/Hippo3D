@@ -10,6 +10,8 @@ namespace Hippo3D {
 	public:
 		ShaderProgram(const std::string& vertex_shader_path, const std::string& fragment_shader_path);
 
+		void SetUniform(const std::string& name, const unsigned int value) const ;
+
 		unsigned int GetID() const noexcept
 		{ return ID_; }
 

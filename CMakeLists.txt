@@ -7,7 +7,7 @@ add_subdirectory(source/shaders)
 # Source files
 set(SRC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/source")
 set(LIB_DIR "${CMAKE_CURRENT_SOURCE_DIR}/libraries")
-set(SOURCES "${SRC_DIR}/main.cpp" source/ShaderProgram.cpp source/ShaderProgram.h source/shaders/shaders.h source/shaders/shaders.cpp)
+set(SOURCES "${SRC_DIR}/main.cpp" source/ShaderProgram.cpp source/ShaderProgram.h source/shaders/shaders.h source/shaders/shaders.cpp source/Texture.cpp source/Texture.h)
 
 # Executable definition and properties
 add_executable(${PROJECT_NAME} ${SOURCES})
@@ -31,3 +31,10 @@ add_library("glad" "${GLAD_DIR}/src/glad.c")
 target_include_directories("glad" PRIVATE "${GLAD_DIR}/include")
 target_include_directories(${PROJECT_NAME} PRIVATE "${GLAD_DIR}/include")
 target_link_libraries(${PROJECT_NAME} "glad" "${CMAKE_DL_LIBS}")
+
+# stb-image
+set(STB_DIR "${LIB_DIR}/stb")
+add_library("stb" "${STB_DIR}/src/stb_image.c")
+target_include_directories("stb" PRIVATE "${STB_DIR}/include")
+target_include_directories(${PROJECT_NAME}  PRIVATE "${STB_DIR}/include")
+target_link_libraries(${PROJECT_NAME} "stb")

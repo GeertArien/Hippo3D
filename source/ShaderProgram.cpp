@@ -26,6 +26,10 @@ ShaderProgram::ShaderProgram(const std::string& vertex_shader_name, const std::s
 	ID_ = CreateShaderProgram(vertex_shader.c_str(), fragment_shader.c_str());
 }
 
+void ShaderProgram::SetUniform(const std::string& name, const unsigned int value) const {
+	glUniform1i(glGetUniformLocation(ID_, name.c_str()), value);
+}
+
 unsigned int ShaderProgram::CreateShaderProgram(const char* vertex_shader_source,
 												const char* fragment_shader_source) const
 {
