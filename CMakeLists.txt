@@ -2,10 +2,12 @@
 cmake_minimum_required(VERSION 3.10)
 project(Hippo3D)
 
+add_subdirectory(source/shaders)
+
 # Source files
 set(SRC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/source")
 set(LIB_DIR "${CMAKE_CURRENT_SOURCE_DIR}/libraries")
-set(SOURCES "${SRC_DIR}/main.cpp")
+set(SOURCES "${SRC_DIR}/main.cpp" source/ShaderProgram.cpp source/ShaderProgram.h source/shaders/shaders.h source/shaders/shaders.cpp)
 
 # Executable definition and properties
 add_executable(${PROJECT_NAME} ${SOURCES})
