@@ -1,17 +1,11 @@
 #include <glad/glad.h>
-#include <GLFW/glfw3.h>
 #include <iostream>
 #include <cmath>
 #include <stb_image.h>
 
+#include "ToolKit.h"
 #include "ShaderProgram.h"
 #include "Texture.h"
-
-// forward declarations
-void GLFWInitialize(const int version_major, const int version_minor, int opengl_profile);
-void FrameBufferSizeCallback(GLFWwindow *window, int width, int height);
-void ProcessInput(GLFWwindow *window);
-GLFWwindow* CreateWindow(int width, int height, const char* title);
 
 
 // settings
@@ -19,8 +13,8 @@ const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 
 int main() {
-	GLFWInitialize(3, 3, GLFW_OPENGL_CORE_PROFILE);
-	GLFWwindow* window = CreateWindow(SCR_WIDTH, SCR_HEIGHT, "Hippo3D");
+	Hippo3D::ToolKit tool_kit(3, 3, GLFW_OPENGL_CORE_PROFILE);
+	Hippo3D::Window window = tool_kit.CreateWindow(SCR_WIDTH, SCR_HEIGHT, "Hippo3D");
 
 	// glad: load all OpenGL function pointers
 	// ---------------------------------------
@@ -83,10 +77,10 @@ int main() {
 
 	// render loop
 	// -----------
-	while(!glfwWindowShouldClose(window)) {
+	while(!window.ShouldClose()) {
 		// input
 		// -----
-		ProcessInput(window);
+		window.ProcessInput();
 
 		// clear buffer
 		// ------
@@ -101,13 +95,10 @@ int main() {
 		glActiveTexture(GL_TEXTURE1); // activate the texture unit first before binding texture
 		glBindTexture(GL_TEXTURE_2D, texture1.GetID());
 		glBindVertexArray(VAO);
-//		glDrawArrays(GL_TRIANGLES, 0, 3);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
-		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
-		// -------------------------------------------------------------------------------
-		glfwSwapBuffers(window);
-		glfwPollEvents();
+		window.SwapBuffers();
+		tool_kit.PollEvents();
 	}
 
 	// optional: de-allocate all resources once they've outlived their purpose:
@@ -115,50 +106,5 @@ int main() {
 	glDeleteVertexArrays(1, &VAO);
 	glDeleteBuffers(1, &VBO);
 
-	// glfw: terminate, clearing all previously allocated GLFW resources.
-	// ------------------------------------------------------------------
-	glfwTerminate();
 	return 0;
-}
-
-
-// glfw: initialize and configure
-// ------------------------------
-void GLFWInitialize(const int version_major, const int version_minor, int opengl_profile) {
-	glfwInit();
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, version_major);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, version_minor);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, opengl_profile);
-}
-
-
-// glfw window creation
-// --------------------
-GLFWwindow* CreateWindow(int width, int height, const char* title) {
-	GLFWwindow* window = glfwCreateWindow(width, height, title, nullptr, nullptr);
-	if (window == nullptr)	{
-		glfwTerminate();
-		throw std::runtime_error("Failed to create GLFW window");
-	}
-	glfwMakeContextCurrent(window);
-	glfwSetFramebufferSizeCallback(window, FrameBufferSizeCallback);
-
-	return window;
-}
-
-
-// glfw: whenever the window size changed (by OS or user resize) this callback function executes
-// ---------------------------------------------------------------------------------------------
-void FrameBufferSizeCallback(GLFWwindow *window, int width, int height) {
-	// make sure the viewport matches the new window dimensions; note that width and
-	// height will be significantly larger than specified on retina displays.
-	glViewport(0, 0, width, height);
-}
-
-
-// process all input: query GLFW whether relevant keys are pressed/released this frame and react accordingly
-// ---------------------------------------------------------------------------------------------------------
-void ProcessInput(GLFWwindow *window) {
-	if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-		glfwSetWindowShouldClose(window, true);
 }

@@ -7,7 +7,7 @@ add_subdirectory(source/shaders)
 # Source files
 set(SRC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/source")
 set(LIB_DIR "${CMAKE_CURRENT_SOURCE_DIR}/libraries")
-set(SOURCES "${SRC_DIR}/main.cpp" source/ShaderProgram.cpp source/ShaderProgram.h source/shaders/shaders.h source/shaders/shaders.cpp source/Texture.cpp source/Texture.h)
+set(SOURCES "${SRC_DIR}/main.cpp" source/ShaderProgram.cpp source/ShaderProgram.h source/shaders/shaders.h source/shaders/shaders.cpp source/Texture.cpp source/Texture.h source/ToolKit.cpp source/ToolKit.h source/Window.cpp source/Window.h)
 
 # Executable definition and properties
 add_executable(${PROJECT_NAME} ${SOURCES})
