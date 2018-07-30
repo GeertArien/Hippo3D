@@ -1,6 +1,10 @@
 #ifndef HIPPO3D_TOOLKIT_H
 #define HIPPO3D_TOOLKIT_H
 
+#ifdef CreateWindow
+# undef CreateWindow
+#endif
+
 #include "Window.h"
 
 
