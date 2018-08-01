@@ -2,6 +2,7 @@
 
 #include <glad/glad.h>
 #include <stdexcept>
+#include <gtc/type_ptr.hpp>
 
 #include "shaders/shaders.h"
 
@@ -28,6 +29,10 @@ ShaderProgram::ShaderProgram(const std::string& vertex_shader_name, const std::s
 
 void ShaderProgram::SetUniform(const std::string& name, const unsigned int value) const {
 	glUniform1i(glGetUniformLocation(ID_, name.c_str()), value);
+}
+
+void ShaderProgram::SetUniform(const std::string& name, const glm::mat4& matrix) const {
+	glUniformMatrix4fv(glGetUniformLocation(ID_, name.c_str()), 1, GL_FALSE, glm::value_ptr(matrix));
 }
 
 unsigned int ShaderProgram::CreateShaderProgram(const char* vertex_shader_source,

@@ -2,6 +2,7 @@
 #define HIPPO3D_SHADER_H
 
 #include <string>
+#include <detail/type_mat.hpp>
 
 namespace Hippo3D {
 
@@ -11,6 +12,7 @@ namespace Hippo3D {
 		ShaderProgram(const std::string& vertex_shader_path, const std::string& fragment_shader_path);
 
 		void SetUniform(const std::string& name, const unsigned int value) const ;
+		void SetUniform(const std::string& name, const glm::mat4& matrix) const;
 
 		unsigned int GetID() const noexcept
 		{ return ID_; }

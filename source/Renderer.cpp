@@ -4,6 +4,9 @@
 #include "ShaderProgram.h"
 #include "Texture.h"
 #include "glad/glad.h"
+#include <glm.hpp>
+#include <gtc/matrix_transform.hpp>
+
 
 namespace Hippo3D {
 
@@ -18,10 +21,10 @@ void Renderer::Render() const {
 	// ------------------------------------------------------------------
 	float vertices[] = {
 			// positions          // colors           // texture coords
-			0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f,   // top right
-			0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,   // bottom right
-			-0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f,   // bottom left
-			-0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f    // top left
+			0.5f,  0.5f, 0.0f,    1.0f, 1.0f,   // top right
+			0.5f, -0.5f, 0.0f,    1.0f, 0.0f,   // bottom right
+			-0.5f, -0.5f, 0.0f,   0.0f, 0.0f,   // bottom left
+			-0.5f,  0.5f, 0.0f,   0.0f, 1.0f    // top left
 	};
 
 	unsigned int indices[] = {
@@ -30,7 +33,6 @@ void Renderer::Render() const {
 	};
 
 	const Hippo3D::Texture texture0("container.jpg");
-	const Hippo3D::Texture texture1("awesomeface.png");
 
 	unsigned int VAO;
 	glGenVertexArrays(1, &VAO);
@@ -47,22 +49,19 @@ void Renderer::Render() const {
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
 	// position attribute
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
 	// color attribute
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
-	glEnableVertexAttribArray(1);
+//	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+//	glEnableVertexAttribArray(1);
 	// texture attribute
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
-	glEnableVertexAttribArray(2);
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+	glEnableVertexAttribArray(1);
 
 	// tell opengl for each sampler to which texture unit it belongs to (only has to be done once)
 	// -------------------------------------------------------------------------------------------
 	glUseProgram(shader_program.GetID());
 	shader_program.SetUniform("texture0", 0);
-	shader_program.SetUniform("texture1", 1);
-
-
 
 	// render loop
 	// -----------
@@ -79,10 +78,13 @@ void Renderer::Render() const {
 		// render
 		// ------
 		glUseProgram(shader_program.GetID());
+		glm::mat4 trans(1.f);
+		trans = glm::translate(trans, glm::vec3(0.5f, -0.5f, 0.0f));
+		trans = glm::rotate(trans, (float)glfwGetTime(), glm::vec3(0.0f, 0.0f, 1.0f));
+		shader_program.SetUniform("transform", trans);
+
 		glActiveTexture(GL_TEXTURE0); // activate the texture unit first before binding texture
 		glBindTexture(GL_TEXTURE_2D, texture0.GetID());
-		glActiveTexture(GL_TEXTURE1); // activate the texture unit first before binding texture
-		glBindTexture(GL_TEXTURE_2D, texture1.GetID());
 		glBindVertexArray(VAO);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
