@@ -21,4 +21,12 @@ Window ToolKit::CreateWindow(const int width, const int height, const char* titl
 	return Window(width, height, title);
 }
 
+void ToolKit::LoadFunctionPointers() const {
+	// glad: load all OpenGL function pointers
+	// ---------------------------------------
+	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
+		throw std::runtime_error("Failed to initialize GLAD");
+	}
+}
+
 }

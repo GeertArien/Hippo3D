@@ -13,8 +13,14 @@ namespace Hippo3D {
 		~ToolKit();
 
 		Window CreateWindow(const int width, const int height, const char* title) const;
+
+		void SetContext(const Window& window) const
+		{ glfwMakeContextCurrent(*window); }
+
 		void PollEvents() const
 		{ glfwPollEvents(); }
+
+		void LoadFunctionPointers() const;
 
 	};
 

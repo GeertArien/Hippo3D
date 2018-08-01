@@ -10,7 +10,6 @@ Window::Window(const int width, const int height, const char* title) {
 	if (glfw_window_ == nullptr)	{
 		throw std::runtime_error("Failed to create GLFW window");
 	}
-	glfwMakeContextCurrent(glfw_window_);
 	glfwSetFramebufferSizeCallback(glfw_window_, FrameBufferSizeCallback);
 }
 
