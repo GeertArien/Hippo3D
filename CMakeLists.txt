@@ -14,7 +14,7 @@ add_executable(${PROJECT_NAME} ${SOURCES})
 target_include_directories(${PROJECT_NAME} PRIVATE "${SRC_DIR}")
 set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 17)
 
-# GLFW
+# glfw
 set(GLFW_DIR "${LIB_DIR}/glfw")
 set(GLFW_BUILD_EXAMPLES OFF CACHE INTERNAL "Build the GLFW example programs")
 set(GLFW_BUILD_TESTS OFF CACHE INTERNAL "Build the GLFW test programs")
@@ -38,3 +38,8 @@ add_library("stb" "${STB_DIR}/src/stb_image.c")
 target_include_directories("stb" PRIVATE "${STB_DIR}/include")
 target_include_directories(${PROJECT_NAME}  PRIVATE "${STB_DIR}/include")
 target_link_libraries(${PROJECT_NAME} "stb")
+
+# glm
+set(glm_DIR "${LIB_DIR}/glm")
+target_include_directories(${PROJECT_NAME}  PRIVATE "${glm_DIR}/glm")
+
