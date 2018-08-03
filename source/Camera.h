@@ -1,0 +1,68 @@
+#ifndef HIPPO3D_CAMERA_H
+#define HIPPO3D_CAMERA_H
+
+#include <glm.hpp>
+#include <gtc/matrix_transform.hpp>
+
+
+namespace Hippo3D {
+
+	class Window;
+
+}
+
+
+namespace Hippo3D {
+
+	class Camera {
+
+	public:
+		enum class Movement {
+			FORWARD,
+			BACKWARD,
+			LEFT,
+			RIGHT
+		};
+
+		Camera(float fov, float aspect_ratio, float near, float far);
+
+		void SetTarget(Window& window);
+		void SetPosition(const glm::vec3& camera_pos, const glm::vec3& camera_front, const glm::vec3& camera_up);
+		void ProcessMovement(const Movement& movement, float delta_time);
+		void ProcessMouseMovement(float offset_x, float offset_y);
+
+		glm::mat4 GetProjectionMatrix() const
+		{ return glm::perspective(glm::radians(fov_), aspect_ratio_, near_, far_); }
+
+		glm::mat4 GetViewMatrix() const
+		{ return glm::lookAt(camera_pos_, camera_pos_ + camera_front_, camera_up_); }
+
+	private:
+
+		constexpr static float MOVEMENT_SPEED_ = 2.5f;
+		constexpr static float MOUSE_SENSITIVITY = 0.1f;
+
+		glm::vec3 camera_pos_ = glm::vec3(0.f, 0.f, 3.f);
+		glm::vec3 camera_front_ = glm::vec3(0.f, 0.f, -1.f);
+		glm::vec3 camera_up_ = glm::vec3(0.f, 1.f, 0.f);
+		glm::vec3 world_up = glm::vec3(0.f, 1.f, 0.f);
+		glm::vec3 camera_right_ = glm::vec3(1.f, 0.f, 0.f);
+
+		float fov_;
+		float aspect_ratio_;
+		float near_;
+		float far_;
+
+		float pitch_ = 0.f;
+		float yaw_ = -90.f;
+
+		Window* target_;
+
+		void UpdateCameraVectors();
+
+	};
+
+}
+
+
+#endif //HIPPO3D_CAMERA_H

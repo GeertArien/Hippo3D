@@ -5,13 +5,19 @@
 
 
 namespace Hippo3D {
+	class Camera;
+}
+
+
+namespace Hippo3D {
 
 	class Window {
 
 	public:
 		Window(const int width, const int height, const char* title);
 
-		void ProcessInput() const;
+		void AttachCamera(Camera& camera); // replace with observable pattern?
+		void ProcessInput();
 
 		bool ShouldClose() const
 		{ return glfwWindowShouldClose(glfw_window_) > 0; };
@@ -24,8 +30,15 @@ namespace Hippo3D {
 
 	private:
 		GLFWwindow* glfw_window_;
+		Camera* camera_;
 
-		static void FrameBufferSizeCallback(GLFWwindow *window, int width, int height);
+		float last_frame_ = 0.f;
+		float last_x_ = 0.f;
+		float last_y_ = 0.f;
+		bool first_mouse_ = true;
+
+		static void FrameBufferSizeCallback(GLFWwindow*, int width, int height);
+		static void MouseCallback(GLFWwindow* glfw_window, double xpos, double ypos);
 
 	};
 
