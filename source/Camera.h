@@ -30,6 +30,7 @@ namespace Hippo3D {
 		void SetPosition(const glm::vec3& camera_pos, const glm::vec3& camera_front, const glm::vec3& camera_up);
 		void ProcessMovement(const Movement& movement, float delta_time);
 		void ProcessMouseMovement(float offset_x, float offset_y);
+		void ProcessZoom(float offset);
 
 		glm::mat4 GetProjectionMatrix() const
 		{ return glm::perspective(glm::radians(fov_), aspect_ratio_, near_, far_); }
@@ -40,7 +41,7 @@ namespace Hippo3D {
 	private:
 
 		constexpr static float MOVEMENT_SPEED_ = 2.5f;
-		constexpr static float MOUSE_SENSITIVITY = 0.1f;
+		constexpr static float MOUSE_SENSITIVITY = 0.15f;
 
 		glm::vec3 camera_pos_ = glm::vec3(0.f, 0.f, 3.f);
 		glm::vec3 camera_front_ = glm::vec3(0.f, 0.f, -1.f);

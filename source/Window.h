@@ -14,7 +14,7 @@ namespace Hippo3D {
 	class Window {
 
 	public:
-		Window(const int width, const int height, const char* title);
+		Window(int width, int height, const char* title);
 
 		void AttachCamera(Camera& camera); // replace with observable pattern?
 		void ProcessInput();
@@ -38,7 +38,8 @@ namespace Hippo3D {
 		bool first_mouse_ = true;
 
 		static void FrameBufferSizeCallback(GLFWwindow*, int width, int height);
-		static void MouseCallback(GLFWwindow* glfw_window, double xpos, double ypos);
+		static void MouseCallback(GLFWwindow* glfw_window, double pos_x, double pos_y);
+		static void ScrollCallback(GLFWwindow* glfw_window, double, double offset_y);
 
 	};
 

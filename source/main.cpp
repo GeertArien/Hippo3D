@@ -19,7 +19,6 @@ int main() {
 
 	//todo: use unique pointer for window and camera etc
 
-	//todo: implement zoom
 	Hippo3D::ToolKit tool_kit(3, 3, GLFW_OPENGL_CORE_PROFILE);
 	Hippo3D::Window window = tool_kit.CreateWindow(SCR_WIDTH, SCR_HEIGHT, "Hippo3D");
 	tool_kit.SetContext(window);

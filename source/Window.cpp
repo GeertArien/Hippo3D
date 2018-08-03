@@ -8,7 +8,7 @@
 
 namespace Hippo3D {
 
-Window::Window(const int width, const int height, const char* title) {
+Window::Window(int width, int height, const char* title) {
 	glfw_window_ = glfwCreateWindow(width, height, title, nullptr, nullptr);
 	if (glfw_window_ == nullptr)	{
 		throw std::runtime_error("Failed to create GLFW window");
@@ -16,8 +16,10 @@ Window::Window(const int width, const int height, const char* title) {
 	glfwSetWindowUserPointer(glfw_window_, this);
 
 	glfwSetFramebufferSizeCallback(glfw_window_, FrameBufferSizeCallback);
-	glfwSetInputMode(glfw_window_, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glfwSetCursorPosCallback(glfw_window_, MouseCallback);
+	glfwSetScrollCallback(glfw_window_, ScrollCallback);
+
+	glfwSetInputMode(glfw_window_, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }
 
 void Window::AttachCamera(Hippo3D::Camera& camera) {
@@ -42,11 +44,11 @@ void Window::ProcessInput() {
 		camera_->ProcessMovement(Camera::Movement::RIGHT, delta_time);
 }
 
-void Window::MouseCallback(GLFWwindow* glfw_window, double xpos, double ypos) {
+void Window::MouseCallback(GLFWwindow* glfw_window, double pos_x, double pos_y) {
 	auto window = static_cast<Window*>(glfwGetWindowUserPointer(glfw_window));
 
-	auto pos_x_f = static_cast<float>(xpos);
-	auto pos_y_f = static_cast<float>(ypos);
+	auto pos_x_f = static_cast<float>(pos_x);
+	auto pos_y_f = static_cast<float>(pos_y);
 
 	if(window->first_mouse_) {
 		window->last_x_ = pos_x_f;
@@ -60,6 +62,11 @@ void Window::MouseCallback(GLFWwindow* glfw_window, double xpos, double ypos) {
 	window->last_y_ = pos_y_f;
 
 	window->camera_->ProcessMouseMovement(offset_x, offset_y);
+}
+
+void Window::ScrollCallback(GLFWwindow* glfw_window, double, double offset_y) {
+	auto window = static_cast<Window*>(glfwGetWindowUserPointer(glfw_window));
+	window->camera_->ProcessZoom(static_cast<float>(offset_y));
 }
 
 void Window::FrameBufferSizeCallback(GLFWwindow*, int width, int height) {

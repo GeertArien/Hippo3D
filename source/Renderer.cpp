@@ -107,11 +107,6 @@ void Renderer::Render() const {
 	glUseProgram(shader_program.GetID());
 	shader_program.SetUniform("texture0", 0);
 
-	glm::mat4 projection = scene_->GetCamera().GetProjectionMatrix();
-	shader_program.SetUniform("projection", projection);
-
-
-
 	// render loop
 	// -----------
 	while(!window_->ShouldClose()) {
@@ -132,6 +127,7 @@ void Renderer::Render() const {
 		glBindTexture(GL_TEXTURE_2D, texture0.GetID());
 		glBindVertexArray(VAO);
 
+		shader_program.SetUniform("projection", scene_->GetCamera().GetProjectionMatrix());
 		shader_program.SetUniform("view", scene_->GetCamera().GetViewMatrix());
 
 		for(unsigned int i = 0; i < 10; i++) {

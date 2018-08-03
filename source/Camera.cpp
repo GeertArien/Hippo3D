@@ -47,6 +47,15 @@ void Camera::ProcessMouseMovement(float offset_x, float offset_y) {
 	UpdateCameraVectors();
 }
 
+void Camera::ProcessZoom(float offset) {
+	if(fov_ >= 1.0f && fov_ <= 45.0f)
+		fov_ -= offset;
+	if(fov_ <= 1.0f)
+		fov_ = 1.0f;
+	if(fov_ >= 45.0f)
+		fov_ = 45.0f;
+}
+
 void Camera::UpdateCameraVectors() {
 	glm::vec3 front;
 	front.x = cosf(glm::radians(yaw_)) * cosf(glm::radians(pitch_));
