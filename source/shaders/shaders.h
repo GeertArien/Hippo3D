@@ -1,7 +1,7 @@
 #include <string>
 #include <map>
 
-namespace Hippo3D {
+namespace Mantis {
 namespace Shader {
 
     extern const std::map<std::string, std::string> FRAGMENT_SHADERS;

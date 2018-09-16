@@ -1,6 +1,6 @@
 file(WRITE shaders.cpp "#include \"shaders.h\"
 
-namespace Hippo3D {
+namespace Mantis {
 namespace Shader {
 ")
 

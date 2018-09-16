@@ -1,9 +1,9 @@
-#ifndef HIPPO3D_TEXTURE_H
-#define HIPPO3D_TEXTURE_H
+#ifndef Mantis_TEXTURE_H
+#define Mantis_TEXTURE_H
 
 #include <string>
 
-namespace Hippo3D {
+namespace Mantis {
 
 	class Texture final {
 
@@ -23,4 +23,4 @@ namespace Hippo3D {
 }
 
 
-#endif //HIPPO3D_TEXTURE_H
+#endif //Mantis_TEXTURE_H

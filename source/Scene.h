@@ -1,10 +1,10 @@
-#ifndef HIPPO3D_SCENE_H
-#define HIPPO3D_SCENE_H
+#ifndef Mantis_SCENE_H
+#define Mantis_SCENE_H
 
 #include "Camera.h"
 
 
-namespace Hippo3D {
+namespace Mantis {
 
 class Scene {
 
@@ -22,4 +22,4 @@ private:
 }
 
 
-#endif //HIPPO3D_SCENE_H
+#endif //Mantis_SCENE_H

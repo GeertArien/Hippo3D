@@ -6,7 +6,7 @@
 #include <gtc/matrix_transform.hpp>
 
 
-namespace Hippo3D {
+namespace Mantis {
 
 Window::Window(int width, int height, const char* title) {
 	glfw_window_ = glfwCreateWindow(width, height, title, nullptr, nullptr);
@@ -22,7 +22,7 @@ Window::Window(int width, int height, const char* title) {
 	glfwSetInputMode(glfw_window_, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }
 
-void Window::AttachCamera(Hippo3D::Camera& camera) {
+void Window::AttachCamera(Mantis::Camera& camera) {
 	camera_ = &camera;
 }
 

@@ -1,7 +1,7 @@
 #include "Scene.h"
 
 
-namespace Hippo3D {
+namespace Mantis {
 
 Scene::Scene(Camera& camera) : camera_(&camera)
 { }

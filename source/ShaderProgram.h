@@ -1,10 +1,10 @@
-#ifndef HIPPO3D_SHADER_H
-#define HIPPO3D_SHADER_H
+#ifndef Mantis_SHADER_H
+#define Mantis_SHADER_H
 
 #include <string>
 #include <detail/type_mat.hpp>
 
-namespace Hippo3D {
+namespace Mantis {
 
 	class ShaderProgram final {
 
@@ -28,4 +28,4 @@ namespace Hippo3D {
 }
 
 
-#endif //HIPPO3D_SHADER_H
+#endif //Mantis_SHADER_H

@@ -1,15 +1,15 @@
-#ifndef HIPPO3D_WINDOW_H
-#define HIPPO3D_WINDOW_H
+#ifndef Mantis_WINDOW_H
+#define Mantis_WINDOW_H
 
 #include <GLFW/glfw3.h>
 
 
-namespace Hippo3D {
+namespace Mantis {
 	class Camera;
 }
 
 
-namespace Hippo3D {
+namespace Mantis {
 
 	class Window {
 
@@ -46,4 +46,4 @@ namespace Hippo3D {
 }
 
 
-#endif //HIPPO3D_WINDOW_H
+#endif //Mantis_WINDOW_H

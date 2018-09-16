@@ -6,7 +6,7 @@
 
 #include "shaders/shaders.h"
 
-namespace Hippo3D {
+namespace Mantis {
 
 ShaderProgram::ShaderProgram(const std::string& vertex_shader_name, const std::string& fragment_shader_name) {
 	std::string vertex_shader, fragment_shader;

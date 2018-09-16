@@ -1,16 +1,16 @@
-#ifndef HIPPO3D_RENDERER_H
-#define HIPPO3D_RENDERER_H
+#ifndef Mantis_RENDERER_H
+#define Mantis_RENDERER_H
 
 
 //forward declarations
-namespace Hippo3D {
+namespace Mantis {
 	class Scene;
 	class ToolKit;
 	class Window;
 }
 
 
-namespace Hippo3D {
+namespace Mantis {
 
 	class Renderer final {
 
@@ -29,4 +29,4 @@ namespace Hippo3D {
 }
 
 
-#endif //HIPPO3D_RENDERER_H
+#endif //Mantis_RENDERER_H

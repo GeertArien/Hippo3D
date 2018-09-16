@@ -1,6 +1,6 @@
 # Project definition
 cmake_minimum_required(VERSION 3.10)
-project(Hippo3D)
+project(Mantis)
 
 add_subdirectory(source/shaders)
 

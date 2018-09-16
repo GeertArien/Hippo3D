@@ -3,7 +3,7 @@
 #include <glad/glad.h>
 #include <stb_image.h>
 
-namespace Hippo3D {
+namespace Mantis {
 
 Texture::Texture(const std::string& uri) : ID_(CreateTextureUnit(uri))
 { }

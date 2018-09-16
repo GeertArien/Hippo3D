@@ -1,18 +1,18 @@
-#ifndef HIPPO3D_CAMERA_H
-#define HIPPO3D_CAMERA_H
+#ifndef Mantis_CAMERA_H
+#define Mantis_CAMERA_H
 
 #include <glm.hpp>
 #include <gtc/matrix_transform.hpp>
 
 
-namespace Hippo3D {
+namespace Mantis {
 
 	class Window;
 
 }
 
 
-namespace Hippo3D {
+namespace Mantis {
 
 	class Camera {
 
@@ -66,4 +66,4 @@ namespace Hippo3D {
 }
 
 
-#endif //HIPPO3D_CAMERA_H
+#endif //Mantis_CAMERA_H

@@ -4,7 +4,7 @@
 #include <stdexcept>
 
 
-namespace Hippo3D {
+namespace Mantis {
 
 ToolKit::ToolKit(const int version_major, const int version_minor, const int opengl_profile) {
 	glfwInit();

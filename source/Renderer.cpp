@@ -10,14 +10,14 @@
 #include <gtc/matrix_transform.hpp>
 
 
-namespace Hippo3D {
+namespace Mantis {
 
 Renderer::Renderer(ToolKit& tool_kit, Window& window, Scene& scene) :
 	tool_kit_(&tool_kit), window_(&window), scene_(&scene)
 { }
 
 void Renderer::Render() const {
-	Hippo3D::ShaderProgram shader_program("flat", "flat");
+	Mantis::ShaderProgram shader_program("flat", "flat");
 	glEnable(GL_DEPTH_TEST);
 
 	// set up vertex data (and buffer(s)) and configure vertex attributes
@@ -79,7 +79,7 @@ void Renderer::Render() const {
 			glm::vec3(-1.3f,  1.0f, -1.5f)
 	};
 
-	const Hippo3D::Texture texture0("container.jpg");
+	const Mantis::Texture texture0("container.jpg");
 
 	unsigned int VAO;
 	glGenVertexArrays(1, &VAO);

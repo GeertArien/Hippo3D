@@ -1,7 +1,7 @@
 #include "Camera.h"
 #include "Window.h"
 
-namespace Hippo3D {
+namespace Mantis {
 
 Camera::Camera(float fov, float aspect_ratio, float near, float far)
 	: fov_(fov), aspect_ratio_(aspect_ratio), near_(near), far_(far)

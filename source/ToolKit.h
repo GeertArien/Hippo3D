@@ -1,5 +1,5 @@
-#ifndef HIPPO3D_TOOLKIT_H
-#define HIPPO3D_TOOLKIT_H
+#ifndef Mantis_TOOLKIT_H
+#define Mantis_TOOLKIT_H
 
 #ifdef CreateWindow
 # undef CreateWindow
@@ -8,7 +8,7 @@
 #include "Window.h"
 
 
-namespace Hippo3D {
+namespace Mantis {
 
 	class ToolKit {
 
@@ -30,4 +30,4 @@ namespace Hippo3D {
 
 }
 
-#endif //HIPPO3D_TOOLKIT_H
+#endif //Mantis_TOOLKIT_H
