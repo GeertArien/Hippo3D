@@ -1,5 +1,4 @@
-#ifndef Mantis_SCENE_H
-#define Mantis_SCENE_H
+#pragma once
 
 #include "Camera.h"
 
@@ -20,6 +19,3 @@ private:
 };
 
 }
-
-
-#endif //Mantis_SCENE_H

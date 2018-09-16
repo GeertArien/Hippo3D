@@ -1,5 +1,4 @@
-#ifndef Mantis_TOOLKIT_H
-#define Mantis_TOOLKIT_H
+#pragma once
 
 #ifdef CreateWindow
 # undef CreateWindow
@@ -29,5 +28,3 @@ namespace Mantis {
 	};
 
 }
-
-#endif //Mantis_TOOLKIT_H

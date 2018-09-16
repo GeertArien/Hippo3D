@@ -1,5 +1,4 @@
-#ifndef Mantis_WINDOW_H
-#define Mantis_WINDOW_H
+#pragma once
 
 #include <GLFW/glfw3.h>
 
@@ -44,6 +43,3 @@ namespace Mantis {
 	};
 
 }
-
-
-#endif //Mantis_WINDOW_H

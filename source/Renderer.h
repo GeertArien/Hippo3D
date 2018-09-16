@@ -1,6 +1,4 @@
-#ifndef Mantis_RENDERER_H
-#define Mantis_RENDERER_H
-
+#pragma once
 
 //forward declarations
 namespace Mantis {
@@ -27,6 +25,3 @@ namespace Mantis {
 	};
 
 }
-
-
-#endif //Mantis_RENDERER_H

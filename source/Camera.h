@@ -1,5 +1,4 @@
-#ifndef Mantis_CAMERA_H
-#define Mantis_CAMERA_H
+#pragma once
 
 #include <glm.hpp>
 #include <gtc/matrix_transform.hpp>
@@ -64,6 +63,3 @@ namespace Mantis {
 	};
 
 }
-
-
-#endif //Mantis_CAMERA_H

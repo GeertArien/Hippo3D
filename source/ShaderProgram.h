@@ -1,5 +1,4 @@
-#ifndef Mantis_SHADER_H
-#define Mantis_SHADER_H
+#pragma once
 
 #include <string>
 #include <detail/type_mat.hpp>
@@ -26,6 +25,3 @@ namespace Mantis {
 	};
 
 }
-
-
-#endif //Mantis_SHADER_H

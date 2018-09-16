@@ -1,5 +1,4 @@
-#ifndef Mantis_TEXTURE_H
-#define Mantis_TEXTURE_H
+#pragma once
 
 #include <string>
 
@@ -21,6 +20,3 @@ namespace Mantis {
 	};
 
 }
-
-
-#endif //Mantis_TEXTURE_H
