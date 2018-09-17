@@ -7,13 +7,17 @@ add_subdirectory(source/shaders)
 # Source files
 set(SRC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/source")
 set(LIB_DIR "${CMAKE_CURRENT_SOURCE_DIR}/libraries")
-set(SOURCES "${SRC_DIR}/main.cpp" source/ShaderProgram.cpp source/ShaderProgram.h source/shaders/shaders.h source/shaders/shaders.cpp source/Texture.cpp source/Texture.h source/ToolKit.cpp source/ToolKit.h source/Window.cpp source/Window.h source/Renderer.cpp source/Renderer.h source/Camera.cpp source/Camera.h source/Scene.cpp source/Scene.h)
+set(SOURCES "${SRC_DIR}/main.cpp" source/ShaderProgram.cpp source/ShaderProgram.h source/shaders/shaders.h source/shaders/shaders.cpp source/Texture.cpp source/Texture.h source/ToolKit.cpp source/ToolKit.h source/Window.cpp source/Window.h source/Renderer.cpp source/Renderer.h source/Camera.cpp source/Camera.h source/Scene.cpp source/Scene.h source/GL_impl.h)
 
 # Executable definition and properties
 add_executable(${PROJECT_NAME} ${SOURCES})
 target_include_directories(${PROJECT_NAME} PRIVATE "${SRC_DIR}")
 set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 17)
 
+if(EMSCRIPTEN)
+target_compile_definitions(${PROJECT_NAME} PRIVATE GLFW_INCLUDE_ES2=1)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s USE_GLFW=3 -s DISABLE_EXCEPTION_CATCHING=0")
+else()
 # glfw
 set(GLFW_DIR "${LIB_DIR}/glfw")
 set(GLFW_BUILD_EXAMPLES OFF CACHE INTERNAL "Build the GLFW example programs")
@@ -24,6 +28,7 @@ add_subdirectory("${GLFW_DIR}")
 target_link_libraries(${PROJECT_NAME} "glfw" "${GLFW_LIBRARIES}")
 target_include_directories(${PROJECT_NAME} PRIVATE "${GLFW_DIR}/include")
 target_compile_definitions(${PROJECT_NAME} PRIVATE "GLFW_INCLUDE_NONE")
+endif(EMSCRIPTEN)
 
 # glad
 set(GLAD_DIR "${LIB_DIR}/glad")

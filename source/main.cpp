@@ -1,4 +1,4 @@
-#include <glad/glad.h>
+#include "GL_impl.h"
 #include <iostream>
 #include <cmath>
 #include <stb_image.h>

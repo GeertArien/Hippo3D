@@ -1,6 +1,6 @@
 #include "Window.h"
 #include "Camera.h"
-#include <glad/glad.h>
+#include "GL_impl.h"
 #include <stdexcept>
 #include <glm.hpp>
 #include <gtc/matrix_transform.hpp>

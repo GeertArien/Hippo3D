@@ -1,6 +1,6 @@
 #include "ToolKit.h"
 #include <GLFW/glfw3.h>
-#include <glad/glad.h>
+#include "GL_impl.h"
 #include <stdexcept>
 
 
@@ -24,9 +24,9 @@ Window ToolKit::CreateWindow(const int width, const int height, const char* titl
 void ToolKit::LoadFunctionPointers() const {
 	// glad: load all OpenGL function pointers
 	// ---------------------------------------
-	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
-		throw std::runtime_error("Failed to initialize GLAD");
-	}
+//	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
+//		throw std::runtime_error("Failed to initialize GLAD");
+//	}
 }
 
 }
