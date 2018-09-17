@@ -19,7 +19,7 @@ int main() {
 
 	//todo: use unique pointer for window and camera etc
 
-	Mantis::ToolKit tool_kit(3, 3, GLFW_OPENGL_CORE_PROFILE);
+	Mantis::ToolKit tool_kit(2, 0, GLFW_OPENGL_ES_API);
 	Mantis::Window window = tool_kit.CreateWindow(SCR_WIDTH, SCR_HEIGHT, "Mantis");
 	tool_kit.SetContext(window);
 	tool_kit.LoadFunctionPointers();

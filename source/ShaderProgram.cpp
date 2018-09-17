@@ -71,13 +71,10 @@ unsigned int ShaderProgram::CompileShader(const char* shader_source, unsigned in
 	glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
 
 	if(!success) {
-		printf("hello, testing666!\n");
 		char info_log[512];
 		glGetShaderInfoLog(shader, 512, nullptr, info_log);
-		printf(info_log);
 		throw std::runtime_error("Shader compilation failed:\n" + std::string(info_log));
 	}
-	printf("hello, testing777!\n");
 
 	return shader;
 }

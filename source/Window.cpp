@@ -19,7 +19,7 @@ Window::Window(int width, int height, const char* title) {
 	glfwSetCursorPosCallback(glfw_window_, MouseCallback);
 	glfwSetScrollCallback(glfw_window_, ScrollCallback);
 
-	glfwSetInputMode(glfw_window_, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	//glfwSetInputMode(glfw_window_, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }
 
 void Window::AttachCamera(Mantis::Camera& camera) {
