@@ -8,20 +8,20 @@
 
 namespace Mantis {
 
-ShaderProgram::ShaderProgram(const std::string& vertex_shader_name, const std::string& fragment_shader_name) {
+ShaderProgram::ShaderProgram(const std::string& name) {
 	std::string vertex_shader, fragment_shader;
 	try {
-		vertex_shader = Shader::VERTEX_SHADERS.at(vertex_shader_name);
+		vertex_shader = Shader::VERTEX_SHADERS.at(name);
 	}
 	catch (const std::out_of_range& e) {
-		throw std::runtime_error("Invalid vertex shader name: " + vertex_shader_name);
+		throw std::runtime_error("Invalid vertex shader name: " + name);
 	}
 
 	try {
-		fragment_shader = Shader::FRAGMENT_SHADERS.at(fragment_shader_name);
+		fragment_shader = Shader::FRAGMENT_SHADERS.at(name);
 	}
 	catch (const std::out_of_range& e) {
-		throw std::runtime_error("Invalid fragment shader name: " + fragment_shader_name);
+		throw std::runtime_error("Invalid fragment shader name: " + name);
 	}
 
 	ID_ = CreateShaderProgram(vertex_shader.c_str(), fragment_shader.c_str());

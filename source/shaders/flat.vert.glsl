@@ -1,3 +1,4 @@
+#version 330 core
 attribute vec3 aPos;
 
 uniform mat4 model;

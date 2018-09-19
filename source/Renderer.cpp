@@ -6,113 +6,49 @@
 #include "Texture.h"
 #include "GL_impl.h"
 #include "Camera.h"
+#include "Mesh.h"
 #include <glm.hpp>
 #include <gtc/matrix_transform.hpp>
+#include <vector>
 
+#if EMSCRIPTEN
 #include <emscripten/emscripten.h>
+#endif
+
 
 namespace Mantis {
 
 Renderer::Renderer(ToolKit& tool_kit, Window& window, Scene& scene) :
-	tool_kit_(&tool_kit), window_(&window), scene_(&scene), shader_program_("flat", "flat")
+	tool_kit_(&tool_kit), window_(&window), scene_(&scene), shader_program_("flat")
 { }
 
-	void testing(void* renderer_p) {
-		Renderer* renderer = reinterpret_cast<Renderer*>(renderer_p);
-		renderer->RenderPass();
-	}
+void testing(void* renderer_p) {
+	auto renderer = reinterpret_cast<Renderer*>(renderer_p);
+	renderer->RenderPass();
+}
 
 void Renderer::Render() {
 
 	glEnable(GL_DEPTH_TEST);
 
-	// set up vertex data (and buffer(s)) and configure vertex attributes
-	// ------------------------------------------------------------------
-	float vertices[] = {
-			-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-			0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
-			0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-			0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-			-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-			-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-
-			-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-			0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-			0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-			0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-			-0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-			-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-
-			-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-			-0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-			-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-			-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-			-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-			-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-
-			0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-			0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-			0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-			0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-			0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-			0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-
-			-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-			0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
-			0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-			0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-			-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-			-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-
-			-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-			0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-			0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-			0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-			-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
-			-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
-	};
-
-	glm::vec3 cubePositions[] = {
-			glm::vec3( 0.0f,  0.0f,  0.0f),
-			glm::vec3( 2.0f,  5.0f, -15.0f),
-			glm::vec3(-1.5f, -2.2f, -2.5f),
-			glm::vec3(-3.8f, -2.0f, -12.3f),
-			glm::vec3( 2.4f, -0.4f, -3.5f),
-			glm::vec3(-1.7f,  3.0f, -7.5f),
-			glm::vec3( 1.3f, -2.0f, -2.5f),
-			glm::vec3( 1.5f,  2.0f, -2.5f),
-			glm::vec3( 1.5f,  0.2f, -1.5f),
-			glm::vec3(-1.3f,  1.0f, -1.5f)
-	};
-
-	//const Mantis::Texture texture0("container.jpg");
-
 	unsigned int VBO;
 	glGenBuffers(1, &VBO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-//	unsigned int EBO;
-//	glGenBuffers(1, &EBO);
-//	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-//	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, mesh.GetDataSize(), mesh.GetDataPointer(), GL_STATIC_DRAW);
 
 	// position attribute
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
-	// texture attribute
-//	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
-//	glEnableVertexAttribArray(1);
 
-	// render loop
-	// -----------
-	//while(!window_->ShouldClose()) {
-
+#if EMSCRIPTEN
 	emscripten_set_main_loop_arg(testing, this, 60, 1);
-	//}
+#else
+	while(!window_->ShouldClose()) {
+		RenderPass();
+	}
+#endif
 
 	// optional: de-allocate all resources once they've outlived their purpose:
-	// ------------------------------------------------------------------------
 	glDeleteBuffers(1, &VBO);
 
 }
@@ -130,9 +66,6 @@ void Renderer::RenderPass() const {
 	// render
 	// ------
 	glUseProgram(shader_program_.GetID());
-
-	//glActiveTexture(GL_TEXTURE0); // activate the texture unit first before binding texture
-	//glBindTexture(GL_TEXTURE_2D, texture0.GetID());
 
 	shader_program_.SetUniform("projection", scene_->GetCamera().GetProjectionMatrix());
 	shader_program_.SetUniform("view", scene_->GetCamera().GetViewMatrix());

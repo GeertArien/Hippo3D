@@ -8,7 +8,7 @@ namespace Mantis {
 	class ShaderProgram final {
 
 	public:
-		ShaderProgram(const std::string& vertex_shader_path, const std::string& fragment_shader_path);
+		ShaderProgram(const std::string& name);
 
 		void SetUniform(const std::string& name, const unsigned int value) const ;
 		void SetUniform(const std::string& name, const glm::mat4& matrix) const;

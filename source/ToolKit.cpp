@@ -10,6 +10,7 @@ ToolKit::ToolKit(const int version_major, const int version_minor, const int ope
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, version_major);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, version_minor);
+	glfwWindowHint(GLFW_CLIENT_API, opengl_profile);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, opengl_profile);
 }
 
@@ -22,11 +23,11 @@ Window ToolKit::CreateWindow(const int width, const int height, const char* titl
 }
 
 void ToolKit::LoadFunctionPointers() const {
-	// glad: load all OpenGL function pointers
-	// ---------------------------------------
-//	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
-//		throw std::runtime_error("Failed to initialize GLAD");
-//	}
+#ifndef EMSCRIPTEN
+	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
+		throw std::runtime_error("Failed to initialize GLAD");
+	}
+#endif
 }
 
 }

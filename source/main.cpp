@@ -19,15 +19,68 @@ int main() {
 
 	//todo: use unique pointer for window and camera etc
 
+#if EMSCRIPTEN
 	Mantis::ToolKit tool_kit(2, 0, GLFW_OPENGL_ES_API);
+#else
+	Mantis::ToolKit tool_kit(2, 0, GLFW_OPENGL_ES_API);
+#endif
+
 	Mantis::Window window = tool_kit.CreateWindow(SCR_WIDTH, SCR_HEIGHT, "Mantis");
 	tool_kit.SetContext(window);
 	tool_kit.LoadFunctionPointers();
 
 	Mantis::Camera camera(45.f, static_cast<float>(SCR_WIDTH) / static_cast<float>(SCR_HEIGHT), 0.1f, 100.f);
 	camera.SetPosition(glm::vec3(0.0f, 0.0f,  3.0f), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec3(0.0f, 1.0f,  0.0f));
+	//todo: this should probably be moved to renderer (settarget)
 	camera.SetTarget(window);
 	Mantis::Scene scene(camera);
+
+	Mantis::Object object;
+	object.SetMesh({
+						   -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+						   0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
+						   0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+						   0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+						   -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+						   -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+
+						   -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+						   0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+						   0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+						   0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+						   -0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
+						   -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+
+						   -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+						   -0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+						   -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+						   -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+						   -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+						   -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+
+						   0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+						   0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+						   0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+						   0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+						   0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+						   0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+
+						   -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+						   0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
+						   0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+						   0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+						   -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+						   -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+
+						   -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+						   0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+						   0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+						   0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+						   -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
+						   -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
+				   });
+
+	scene.AddObject(std::move(object));
 
 	Mantis::Renderer renderer(tool_kit, window, scene);
 	renderer.Render();
