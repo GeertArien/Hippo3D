@@ -17,6 +17,9 @@ public:
 	void AddObject(const Object& object);
 	void AddObject(Object&& object);
 
+	std::vector<Object>& GetObjects()
+	{ return objects_; }
+
 private:
 	Camera* camera_;
 	std::vector<Object> objects_;

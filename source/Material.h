@@ -11,6 +11,9 @@ namespace Mantis {
 		Material();
 		Material(const std::string& type);
 
+		const ShaderProgram& GetShaderProgram() const
+		{ return shader_; }
+
 	private:
 		ShaderProgram shader_;
 		//Texture texture_;

@@ -1,8 +1,8 @@
 #pragma once
 
-//forward declarations
-#include "ShaderProgram.h"
+#include <map>
 
+//forward declarations
 namespace Mantis {
 	class Scene;
 	class ToolKit;
@@ -21,12 +21,10 @@ namespace Mantis {
 		void RenderPass() const;
 
 	private:
-
-
-		ShaderProgram shader_program_;
 		ToolKit* tool_kit_;
 		Window* window_;
 		Scene* scene_;
+		std::map<unsigned int, unsigned int> vbo_map_;
 
 	};
 
