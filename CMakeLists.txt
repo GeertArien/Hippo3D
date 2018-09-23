@@ -7,7 +7,7 @@ add_subdirectory(source/shaders)
 # Source files
 set(SRC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/source")
 set(LIB_DIR "${CMAKE_CURRENT_SOURCE_DIR}/libraries")
-set(SOURCES "${SRC_DIR}/main.cpp" source/ShaderProgram.cpp source/ShaderProgram.h source/shaders/shaders.h source/shaders/shaders.cpp source/Texture.cpp source/Texture.h source/ToolKit.cpp source/ToolKit.h source/Window.cpp source/Window.h source/Renderer.cpp source/Renderer.h source/Camera.cpp source/Camera.h source/Scene.cpp source/Scene.h source/GL_impl.h source/Mesh.cpp source/Mesh.h source/Object.cpp source/Object.h source/Material.cpp source/Material.h)
+set(SOURCES "${SRC_DIR}/main.cpp" source/core/ShaderProgram.cpp source/core/ShaderProgram.h source/shaders/shaders.h source/shaders/shaders.cpp source/core/Texture.cpp source/core/Texture.h source/context/Window.cpp source/context/Window.h source/core/Renderer.cpp source/core/Renderer.h source/core/Camera.cpp source/core/Camera.h source/core/Scene.cpp source/core/Scene.h source/GL_impl.h source/core/Mesh.cpp source/core/Mesh.h source/core/Object.cpp source/core/Object.h source/core/Material.cpp source/core/Material.h source/context/InputManager.cpp source/context/InputManager.h)
 
 # Executable definition and properties
 add_executable(${PROJECT_NAME} ${SOURCES})

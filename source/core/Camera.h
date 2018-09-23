@@ -4,10 +4,9 @@
 #include <gtc/matrix_transform.hpp>
 
 
+// forward declarations
 namespace Mantis {
-
 	class Window;
-
 }
 
 
@@ -25,12 +24,12 @@ namespace Mantis {
 
 		Camera(float fov, float aspect_ratio, float near, float far);
 
-		void SetTarget(Window& window);
 		void SetPosition(const glm::vec3& camera_pos, const glm::vec3& camera_front, const glm::vec3& camera_up);
 		void ProcessMovement(const Movement& movement, float delta_time);
 		void ProcessMouseMovement(float offset_x, float offset_y);
 		void ProcessZoom(float offset);
 
+		// todo: safe matrices and update them automatically?
 		glm::mat4 GetProjectionMatrix() const
 		{ return glm::perspective(glm::radians(fov_), aspect_ratio_, near_, far_); }
 
@@ -55,8 +54,6 @@ namespace Mantis {
 
 		float pitch_ = 0.f;
 		float yaw_ = -90.f;
-
-		Window* target_;
 
 		void UpdateCameraVectors();
 

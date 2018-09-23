@@ -3,12 +3,13 @@
 #include <cmath>
 #include <stb_image.h>
 
-#include "ToolKit.h"
-#include "ShaderProgram.h"
-#include "Texture.h"
-#include "Renderer.h"
-#include "Camera.h"
-#include "Scene.h"
+#include "core/ShaderProgram.h"
+#include "core/Texture.h"
+#include "core/Renderer.h"
+#include "core/Camera.h"
+#include "core/Scene.h"
+#include "context/Window.h"
+#include "context/InputManager.h"
 
 
 // settings
@@ -17,23 +18,31 @@ const unsigned int SCR_HEIGHT = 600;
 
 int main() {
 
-	//todo: use unique pointer for window and camera etc
-
-#if EMSCRIPTEN
-	Mantis::ToolKit tool_kit(2, 0, GLFW_OPENGL_ES_API);
-#else
-	Mantis::ToolKit tool_kit(2, 0, GLFW_OPENGL_ES_API);
-#endif
-
-	Mantis::Window window = tool_kit.CreateWindow(SCR_WIDTH, SCR_HEIGHT, "Mantis");
-	tool_kit.SetContext(window);
-	tool_kit.LoadFunctionPointers();
+	Mantis::Window window(SCR_WIDTH, SCR_HEIGHT, "Mantis");
 
 	Mantis::Camera camera(45.f, static_cast<float>(SCR_WIDTH) / static_cast<float>(SCR_HEIGHT), 0.1f, 100.f);
 	camera.SetPosition(glm::vec3(0.0f, 0.0f,  3.0f), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec3(0.0f, 1.0f,  0.0f));
 	//todo: this should probably be moved to renderer (settarget)
-	camera.SetTarget(window);
+	window.AttachCamera(camera);
 	Mantis::Scene scene(camera);
+
+	Mantis::InputManager input_manager(*window);
+	input_manager.on_mouse_move_ = std::bind( &Mantis::Camera::ProcessMouseMovement, &camera,
+			std::placeholders::_1,
+			std::placeholders::_2 );
+	input_manager.on_mouse_scroll_ = std::bind( &Mantis::Camera::ProcessZoom, &camera, std::placeholders::_1);
+	input_manager.key_callbacks_[GLFW_KEY_W] = std::bind( &Mantis::Camera::ProcessMovement, &camera,
+														  Mantis::Camera::Movement::FORWARD,
+														  std::placeholders::_1);
+	input_manager.key_callbacks_[GLFW_KEY_S] = std::bind( &Mantis::Camera::ProcessMovement, &camera,
+														  Mantis::Camera::Movement::BACKWARD,
+														  std::placeholders::_1);
+	input_manager.key_callbacks_[GLFW_KEY_A] = std::bind( &Mantis::Camera::ProcessMovement, &camera,
+														  Mantis::Camera::Movement::LEFT,
+														  std::placeholders::_1);
+	input_manager.key_callbacks_[GLFW_KEY_D] = std::bind( &Mantis::Camera::ProcessMovement, &camera,
+														  Mantis::Camera::Movement::RIGHT,
+														  std::placeholders::_1);
 
 	Mantis::Object default_object;
 	default_object.SetMesh({
@@ -99,7 +108,7 @@ int main() {
 		scene.AddObject(std::move(object));
 	}
 
-	Mantis::Renderer renderer(tool_kit, window, scene);
+	Mantis::Renderer renderer(window, scene);
 	renderer.Render();
 
 	return 0;

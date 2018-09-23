@@ -1,16 +1,11 @@
 #include "Camera.h"
-#include "Window.h"
+#include "context/Window.h"
 
 namespace Mantis {
 
 Camera::Camera(float fov, float aspect_ratio, float near, float far)
 	: fov_(fov), aspect_ratio_(aspect_ratio), near_(near), far_(far)
 { }
-
-void Camera::SetTarget(Window& window) {
-	target_ = &window;
-	window.AttachCamera(*this);
-}
 
 void Camera::SetPosition(const glm::vec3& camera_pos, const glm::vec3& camera_front, const glm::vec3& camera_up) {
 	camera_pos_ = camera_pos;
@@ -21,7 +16,7 @@ void Camera::SetPosition(const glm::vec3& camera_pos, const glm::vec3& camera_fr
 }
 
 void Camera::ProcessMovement(const Movement& movement, float delta_time) {
-	float velocity = MOVEMENT_SPEED_ * delta_time;
+	const float velocity = MOVEMENT_SPEED_ * delta_time;
 	if (movement == Movement::FORWARD)
 		camera_pos_ += camera_front_ * velocity;
 	if (movement == Movement::BACKWARD)

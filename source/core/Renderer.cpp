@@ -1,7 +1,6 @@
 #include "Renderer.h"
 #include "Scene.h"
-#include "ToolKit.h"
-#include "Window.h"
+#include "context/Window.h"
 #include "ShaderProgram.h"
 #include "Texture.h"
 #include "GL_impl.h"
@@ -18,17 +17,17 @@
 
 namespace Mantis {
 
-Renderer::Renderer(ToolKit& tool_kit, Window& window, Scene& scene) :
-	tool_kit_(&tool_kit), window_(&window), scene_(&scene)
-{ }
-
 void testing(void* renderer_p) {
 	auto renderer = reinterpret_cast<Renderer*>(renderer_p);
+	renderer->BeforeRenderPass();
 	renderer->RenderPass();
 }
 
-void Renderer::Render() {
 
+Renderer::Renderer(Window& window, Scene& scene) : window_(&window), scene_(&scene)
+{ }
+
+void Renderer::Setup() {
 	glEnable(GL_DEPTH_TEST);
 
 	for (const auto& object : scene_->GetObjects()) {
@@ -47,25 +46,18 @@ void Renderer::Render() {
 	// position attribute
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
+}
 
-#if EMSCRIPTEN
-	emscripten_set_main_loop_arg(testing, this, 60, 1);
-#else
-	while(!window_->ShouldClose()) {
-		RenderPass();
-	}
-#endif
-
+void Renderer::TearDown() {
 	// optional: de-allocate all resources once they've outlived their purpose:
 	for (const auto& vbo_pair : vbo_map_) {
 		//todo: delete all in one call;
 		glDeleteBuffers(1, &vbo_pair.second);
 	}
 	vbo_map_.clear();
-
 }
 
-void Renderer::RenderPass() const {
+void Renderer::BeforeRenderPass() {
 	// input
 	// -----
 	window_->ProcessInput();
@@ -76,7 +68,26 @@ void Renderer::RenderPass() const {
 		const float angle = 20.0f * i++ + 10.f;
 		object.SetRotation((float)glfwGetTime() * glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
 	}
+}
 
+void Renderer::Render() {
+
+	Setup();
+
+#if EMSCRIPTEN
+	emscripten_set_main_loop_arg(testing, this, 60, 1);
+#else
+	while(!window_->ShouldClose()) {
+		BeforeRenderPass();
+		RenderPass();
+	}
+#endif
+
+	TearDown();
+
+}
+
+void Renderer::RenderPass() const {
 	// clear buffer
 	// ------
 	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
@@ -96,7 +107,6 @@ void Renderer::RenderPass() const {
 	}
 
 	window_->SwapBuffers();
-	tool_kit_->PollEvents();
 }
 
 }

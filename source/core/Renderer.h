@@ -15,13 +15,15 @@ namespace Mantis {
 	class Renderer final {
 
 	public:
-		Renderer(ToolKit& tool_kit, Window& window, Scene& scene);
+		Renderer(Window& window, Scene& scene);
 
+		void Setup();
+		void TearDown();
 		void Render();
+		void BeforeRenderPass();
 		void RenderPass() const;
 
 	private:
-		ToolKit* tool_kit_;
 		Window* window_;
 		Scene* scene_;
 		std::map<unsigned int, unsigned int> vbo_map_;

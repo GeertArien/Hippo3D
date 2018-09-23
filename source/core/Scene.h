@@ -11,7 +11,7 @@ class Scene {
 public:
 	Scene(Camera& camera);
 
-	const Camera& GetCamera() const noexcept
+	Camera& GetCamera() noexcept
 	{ return *camera_; }
 
 	void AddObject(const Object& object);

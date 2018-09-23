@@ -10,7 +10,7 @@ namespace Mantis {
 
 namespace Mantis {
 
-	class Window {
+	class Window final {
 
 	public:
 		Window(int width, int height, const char* title);
@@ -32,13 +32,9 @@ namespace Mantis {
 		Camera* camera_;
 
 		float last_frame_ = 0.f;
-		float last_x_ = 0.f;
-		float last_y_ = 0.f;
-		bool first_mouse_ = true;
 
 		static void FrameBufferSizeCallback(GLFWwindow*, int width, int height);
-		static void MouseCallback(GLFWwindow* glfw_window, double pos_x, double pos_y);
-		static void ScrollCallback(GLFWwindow* glfw_window, double, double offset_y);
+
 
 	};
 
