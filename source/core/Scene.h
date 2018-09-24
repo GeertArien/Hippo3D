@@ -9,11 +9,6 @@ namespace Mantis {
 class Scene {
 
 public:
-	Scene(Camera& camera);
-
-	Camera& GetCamera() noexcept
-	{ return *camera_; }
-
 	void AddObject(const Object& object);
 	void AddObject(Object&& object);
 
@@ -21,7 +16,6 @@ public:
 	{ return objects_; }
 
 private:
-	Camera* camera_;
 	std::vector<Object> objects_;
 
 };

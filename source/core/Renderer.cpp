@@ -17,20 +17,16 @@
 
 namespace Mantis {
 
-void testing(void* renderer_p) {
-	auto renderer = reinterpret_cast<Renderer*>(renderer_p);
-	renderer->BeforeRenderPass();
-	renderer->RenderPass();
-}
+//void testing(void* renderer_p) {
+//	auto renderer = reinterpret_cast<Renderer*>(renderer_p);
+//	renderer->BeforeRenderPass();
+//	renderer->RenderPass();
+//}
 
-
-Renderer::Renderer(Window& window, Scene& scene) : window_(&window), scene_(&scene)
-{ }
-
-void Renderer::Setup() {
+void Renderer::Setup(Scene& scene) {
 	glEnable(GL_DEPTH_TEST);
 
-	for (const auto& object : scene_->GetObjects()) {
+	for (const auto& object : scene.GetObjects()) {
 		const Mesh& mesh = object.GetMesh();
 		const unsigned int id = mesh.GetID();
 
@@ -57,29 +53,29 @@ void Renderer::TearDown() {
 	vbo_map_.clear();
 }
 
-void Renderer::BeforeRenderPass() {
+void Renderer::BeforeRenderPass(Scene& scene, Window& window) {
 	// input
 	// -----
-	window_->ProcessInput();
+	window.ProcessInput();
 
 	// change rotations
 	size_t i = 0;
-	for (auto& object : scene_->GetObjects()) {
+	for (auto& object : scene.GetObjects()) {
 		const float angle = 20.0f * i++ + 10.f;
 		object.SetRotation((float)glfwGetTime() * glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
 	}
 }
 
-void Renderer::Render() {
+void Renderer::Render(Scene& scene, Camera& camera, Window& window) {
 
-	Setup();
+	Setup(scene);
 
 #if EMSCRIPTEN
 	emscripten_set_main_loop_arg(testing, this, 60, 1);
 #else
-	while(!window_->ShouldClose()) {
-		BeforeRenderPass();
-		RenderPass();
+	while(!window.ShouldClose()) {
+		BeforeRenderPass(scene, window);
+		RenderPass(scene, camera, window);
 	}
 #endif
 
@@ -87,7 +83,7 @@ void Renderer::Render() {
 
 }
 
-void Renderer::RenderPass() const {
+void Renderer::RenderPass(Scene& scene, Camera& camera, Window& window) const {
 	// clear buffer
 	// ------
 	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
@@ -96,17 +92,17 @@ void Renderer::RenderPass() const {
 	// render
 	// ------
 
-	for (const auto& object : scene_->GetObjects()) {
+	for (const auto& object : scene.GetObjects()) {
 		const ShaderProgram& shader_program = object.GetMaterial().GetShaderProgram();
 		glUseProgram(shader_program.GetID());
-		shader_program.SetUniform("projection", scene_->GetCamera().GetProjectionMatrix());
-		shader_program.SetUniform("view", scene_->GetCamera().GetViewMatrix());
+		shader_program.SetUniform("projection", camera.GetProjectionMatrix());
+		shader_program.SetUniform("view", camera.GetViewMatrix());
 		shader_program.SetUniform("model", object.GetModelMatrix());
 
 		glDrawArrays(GL_TRIANGLES, 0, 36);
 	}
 
-	window_->SwapBuffers();
+	window.SwapBuffers();
 }
 
 }

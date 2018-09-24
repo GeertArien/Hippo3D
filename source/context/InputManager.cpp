@@ -10,17 +10,17 @@ InputManager::InputManager(GLFWwindow* glfw_window) {
 	glfwSetScrollCallback(glfw_window, ScrollCallback);
 }
 
+void InputManager::SetCallbackTarget(void* callback_target) {
+	callback_target_ = callback_target;
+}
+
 void InputManager::KeyCallBack(GLFWwindow* glfw_window, int key, int scancode, int action, int mods) {
 	auto input_manager = static_cast<InputManager*>(glfwGetWindowUserPointer(glfw_window));
 	auto current_frame = static_cast<float>(glfwGetTime());
 	float delta_time = current_frame - input_manager->last_frame_;
 	input_manager->last_frame_ = current_frame;
 
-	const auto& it = input_manager->key_callbacks_.find(key);
-
-	if (it != input_manager->key_callbacks_.end()) {
-		it->second(delta_time);
-	}
+	input_manager->on_key_press_(input_manager->callback_target_, key, delta_time);
 }
 
 void InputManager::MouseCallback(GLFWwindow* glfw_window, double pos_x, double pos_y) {
@@ -40,12 +40,12 @@ void InputManager::MouseCallback(GLFWwindow* glfw_window, double pos_x, double p
 	input_manager->last_x_ = pos_x_f;
 	input_manager->last_y_ = pos_y_f;
 
-	input_manager->on_mouse_move_(offset_x, offset_y);
+	input_manager->on_mouse_move_(input_manager->callback_target_, offset_x, offset_y);
 }
 
 void InputManager::ScrollCallback(GLFWwindow* glfw_window, double, double offset_y) {
 	auto input_manager = static_cast<InputManager*>(glfwGetWindowUserPointer(glfw_window));
-	input_manager->on_mouse_scroll_(static_cast<float>(offset_y));
+	input_manager->on_mouse_scroll_(input_manager->callback_target_, static_cast<float>(offset_y));
 }
 
 }

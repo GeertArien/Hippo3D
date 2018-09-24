@@ -7,7 +7,7 @@ add_subdirectory(source/shaders)
 # Source files
 set(SRC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/source")
 set(LIB_DIR "${CMAKE_CURRENT_SOURCE_DIR}/libraries")
-set(SOURCES "${SRC_DIR}/main.cpp" source/core/ShaderProgram.cpp source/core/ShaderProgram.h source/shaders/shaders.h source/shaders/shaders.cpp source/core/Texture.cpp source/core/Texture.h source/context/Window.cpp source/context/Window.h source/core/Renderer.cpp source/core/Renderer.h source/core/Camera.cpp source/core/Camera.h source/core/Scene.cpp source/core/Scene.h source/GL_impl.h source/core/Mesh.cpp source/core/Mesh.h source/core/Object.cpp source/core/Object.h source/core/Material.cpp source/core/Material.h source/context/InputManager.cpp source/context/InputManager.h)
+set(SOURCES "${SRC_DIR}/main.cpp" source/core/ShaderProgram.cpp source/core/ShaderProgram.h source/shaders/shaders.h source/shaders/shaders.cpp source/core/Texture.cpp source/core/Texture.h source/context/Window.cpp source/context/Window.h source/core/Renderer.cpp source/core/Renderer.h source/core/Camera.cpp source/core/Camera.h source/core/Scene.cpp source/core/Scene.h source/GL_impl.h source/core/Mesh.cpp source/core/Mesh.h source/core/Object.cpp source/core/Object.h source/core/Material.cpp source/core/Material.h source/context/InputManager.cpp source/context/InputManager.h source/examples/App.cpp source/examples/App.h)
 
 # Executable definition and properties
 add_executable(${PROJECT_NAME} ${SOURCES})

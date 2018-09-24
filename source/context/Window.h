@@ -1,21 +1,15 @@
 #pragma once
 
+#include <string>
 #include <GLFW/glfw3.h>
-
-
-namespace Mantis {
-	class Camera;
-}
-
 
 namespace Mantis {
 
 	class Window final {
 
 	public:
-		Window(int width, int height, const char* title);
+		Window(int width, int height, const std::string& title);
 
-		void AttachCamera(Camera& camera); // replace with observable pattern?
 		void ProcessInput();
 
 		bool ShouldClose() const
@@ -29,9 +23,6 @@ namespace Mantis {
 
 	private:
 		GLFWwindow* glfw_window_;
-		Camera* camera_;
-
-		float last_frame_ = 0.f;
 
 		static void FrameBufferSizeCallback(GLFWwindow*, int width, int height);
 
