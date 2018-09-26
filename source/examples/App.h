@@ -1,6 +1,6 @@
 #pragma once
 
-#include <context/Window.h>
+#include <interface/Window.h>
 #include <core/Camera.h>
 #include <core/Scene.h>
 
@@ -14,9 +14,15 @@ private:
 	Mantis::Scene scene_;
 	Mantis::Camera camera_;
 
-	static void OnKeyPress(void* target, int key, float delta_time);
-	static void OnMouseMove(void* target, float offset_x, float offset_y);
-	static void OnMouseScroll(void* target, float offset);
+	float current_frame_ = 0.f;
+	float last_frame_ = 0.f;
+	float last_x_ = 0.f;
+	float last_y_ = 0.f;
+	bool first_mouse_ = true;
+
+	static void OnKeyPress(void* target, int key);
+	static void OnMouseMove(void* target, double pos_x, double pos_y);
+	static void OnMouseScroll(void* target, double pos_x, double pos_y);
 
 };
 

@@ -1,6 +1,5 @@
 #include "Renderer.h"
 #include "Scene.h"
-#include "context/Window.h"
 #include "ShaderProgram.h"
 #include "Texture.h"
 #include "GL_impl.h"
@@ -53,37 +52,7 @@ void Renderer::TearDown() {
 	vbo_map_.clear();
 }
 
-void Renderer::BeforeRenderPass(Scene& scene, Window& window) {
-	// input
-	// -----
-	window.ProcessInput();
-
-	// change rotations
-	size_t i = 0;
-	for (auto& object : scene.GetObjects()) {
-		const float angle = 20.0f * i++ + 10.f;
-		object.SetRotation((float)glfwGetTime() * glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
-	}
-}
-
-void Renderer::Render(Scene& scene, Camera& camera, Window& window) {
-
-	Setup(scene);
-
-#if EMSCRIPTEN
-	emscripten_set_main_loop_arg(testing, this, 60, 1);
-#else
-	while(!window.ShouldClose()) {
-		BeforeRenderPass(scene, window);
-		RenderPass(scene, camera, window);
-	}
-#endif
-
-	TearDown();
-
-}
-
-void Renderer::RenderPass(Scene& scene, Camera& camera, Window& window) const {
+void Renderer::Render(Scene& scene, Camera& camera) const {
 	// clear buffer
 	// ------
 	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
@@ -101,8 +70,6 @@ void Renderer::RenderPass(Scene& scene, Camera& camera, Window& window) const {
 
 		glDrawArrays(GL_TRIANGLES, 0, 36);
 	}
-
-	window.SwapBuffers();
 }
 
 }

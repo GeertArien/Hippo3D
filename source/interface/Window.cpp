@@ -35,9 +35,6 @@ Window::Window(int width, int height, const std::string& title) {
 
 void Window::ProcessInput() {
 	glfwPollEvents();
-
-	if(glfwGetKey(glfw_window_, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-		glfwSetWindowShouldClose(glfw_window_, true);
 }
 
 

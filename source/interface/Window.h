@@ -12,6 +12,9 @@ namespace Mantis {
 
 		void ProcessInput();
 
+		void SetShouldClose(bool should_close) const
+		{ glfwSetWindowShouldClose(glfw_window_, should_close); };
+
 		bool ShouldClose() const
 		{ return glfwWindowShouldClose(glfw_window_) > 0; };
 

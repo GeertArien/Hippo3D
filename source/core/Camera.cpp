@@ -1,5 +1,4 @@
 #include "Camera.h"
-#include "context/Window.h"
 
 namespace Mantis {
 
