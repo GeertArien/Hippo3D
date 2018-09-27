@@ -10,8 +10,6 @@ namespace Mantis {
 	public:
 		Window(int width, int height, const std::string& title);
 
-		void ProcessInput();
-
 		void SetShouldClose(bool should_close) const
 		{ glfwSetWindowShouldClose(glfw_window_, should_close); };
 

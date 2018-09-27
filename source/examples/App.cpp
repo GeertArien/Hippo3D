@@ -1,5 +1,6 @@
-#include <interface/InputManager.h>
-#include <core/Renderer.h>
+#include "interface/InputManager.h"
+#include "core/Renderer.h"
+#include "interface/controls/FirstPersonControls.h"
 #include "App.h"
 
 // settings
@@ -18,11 +19,9 @@ App::App() :
 {
 	camera_.SetPosition(glm::vec3(0.0f, 0.0f,  3.0f), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec3(0.0f, 1.0f,  0.0f));
 
+	Mantis::FirstPersonControls fp_controls;
 	Mantis::InputManager input_manager(*window_);
-	input_manager.SetCallbackTarget(this);
-	input_manager.on_key_press_ = OnKeyPress;
-	input_manager.on_mouse_move_ = OnMouseMove;
-	input_manager.on_mouse_scroll_ = OnMouseScroll;
+//	input_manager.SetScrollCallback(OnMouseScroll);
 
 	Mantis::Object default_object;
 	default_object.SetMesh({
@@ -97,8 +96,14 @@ App::App() :
 #else
 	while(!window_.ShouldClose()) {
 
-		window_.ProcessInput();
-		last_frame_ = static_cast<float>(glfwGetTime());
+		input_manager.ProcessInput();
+
+		fp_controls.ProcessInput(input_manager, camera_);
+
+		if (input_manager.IsKeyPressed(GLFW_KEY_ESCAPE)) {
+			window_.SetShouldClose(true);
+			continue;
+		}
 
 		// change rotations
 		size_t i = 0;
@@ -115,51 +120,8 @@ App::App() :
 	renderer.TearDown();
 }
 
-void App::OnKeyPress(void* target, int key) {
-	auto app = reinterpret_cast<App*>(target);
 
-	float current_frame = static_cast<float>(glfwGetTime());
-	float delta_time = current_frame - app->last_frame_;
-	app->last_frame_ = current_frame;
-
-	if (key == GLFW_KEY_W) {
-		app->camera_.ProcessMovement(Mantis::Camera::Movement::FORWARD, delta_time);
-	}
-	else if (key == GLFW_KEY_S) {
-		app->camera_.ProcessMovement(Mantis::Camera::Movement::BACKWARD, delta_time);
-	}
-	else if (key == GLFW_KEY_A) {
-		app->camera_.ProcessMovement(Mantis::Camera::Movement::LEFT, delta_time);
-	}
-	else if (key == GLFW_KEY_D) {
-		app->camera_.ProcessMovement(Mantis::Camera::Movement::RIGHT, delta_time);
-	}
-	else if (key == GLFW_KEY_ESCAPE) {
-		app->window_.SetShouldClose(true);
-	}
-}
-
-void App::OnMouseMove(void* target, double pos_x, double pos_y) {
-	auto app = reinterpret_cast<App*>(target);
-
-	auto pos_x_f = static_cast<float>(pos_x);
-	auto pos_y_f = static_cast<float>(pos_y);
-
-	if(app->first_mouse_) {
-		app->last_x_ = pos_x_f;
-		app->last_y_ = pos_y_f;
-		app->first_mouse_ = false;
-	}
-
-	float offset_x = pos_x_f - app->last_x_;
-	float offset_y = app->last_y_ - pos_y_f; // reversed since y-coordinates range from bottom to top
-	app->last_x_ = pos_x_f;
-	app->last_y_ = pos_y_f;
-
-	app->camera_.ProcessMouseMovement(offset_x, offset_y);
-}
-
-void App::OnMouseScroll(void* target, double pos_x, double pos_y) {
-	auto app = reinterpret_cast<App*>(target);
-	app->camera_.ProcessZoom(static_cast<float>(pos_y));
-}
+//void App::OnMouseScroll(void* target, double pos_x, double pos_y) {
+//	auto app = reinterpret_cast<App*>(target);
+//	app->camera_.ProcessZoom(static_cast<float>(pos_y));
+//}

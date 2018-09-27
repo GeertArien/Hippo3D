@@ -29,7 +29,6 @@ namespace Mantis {
 		void ProcessMouseMovement(float offset_x, float offset_y);
 		void ProcessZoom(float offset);
 
-		// todo: safe matrices and update them automatically?
 		glm::mat4 GetProjectionMatrix() const
 		{ return glm::perspective(glm::radians(fov_), aspect_ratio_, near_, far_); }
 
@@ -41,7 +40,7 @@ namespace Mantis {
 		constexpr static float MOVEMENT_SPEED_ = 2.5f;
 		constexpr static float MOUSE_SENSITIVITY = 0.15f;
 
-		glm::vec3 camera_pos_ = glm::vec3(0.f, 0.f, 3.f);
+		glm::vec3 camera_pos_ = glm::vec3(0.f, 0.f, 0.f);
 		glm::vec3 camera_front_ = glm::vec3(0.f, 0.f, -1.f);
 		glm::vec3 camera_up_ = glm::vec3(0.f, 1.f, 0.f);
 		glm::vec3 world_up = glm::vec3(0.f, 1.f, 0.f);

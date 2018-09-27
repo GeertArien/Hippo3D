@@ -33,12 +33,6 @@ Window::Window(int width, int height, const std::string& title) {
 	//glfwSetInputMode(glfw_window_, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }
 
-void Window::ProcessInput() {
-	glfwPollEvents();
-}
-
-
-
 void Window::FrameBufferSizeCallback(GLFWwindow*, int width, int height) {
 	// make sure the viewport matches the new window dimensions; note that width and
 	// height will be significantly larger than specified on retina displays.
