@@ -6,59 +6,22 @@ Camera::Camera(float fov, float aspect_ratio, float near, float far)
 	: fov_(fov), aspect_ratio_(aspect_ratio), near_(near), far_(far)
 { }
 
-void Camera::SetPosition(const glm::vec3& camera_pos, const glm::vec3& camera_front, const glm::vec3& camera_up) {
-	camera_pos_ = camera_pos;
-	camera_front_ = camera_front;
-	camera_up_ = camera_up;
-	world_up = camera_up;
-	camera_right_ = glm::normalize(glm::cross(camera_front_, world_up));
+void Camera::SetPosition(const glm::vec3& position) {
+	position_ = position;
 }
 
-void Camera::ProcessMovement(const Movement& movement, float delta_time) {
-	const float velocity = MOVEMENT_SPEED_ * delta_time;
-	if (movement == Movement::FORWARD)
-		camera_pos_ += camera_front_ * velocity;
-	if (movement == Movement::BACKWARD)
-		camera_pos_ -= camera_front_ * velocity;
-	if (movement == Movement::LEFT)
-		camera_pos_ -= camera_right_ * velocity;
-	if (movement == Movement::RIGHT)
-		camera_pos_ += camera_right_ * velocity;
+void Camera::SetOrientation(const glm::vec3& front_dir, const glm::vec3& world_up_dir) {
+	front_dir_ = front_dir;
+	world_up_dir_ = world_up_dir;
+	right_dir_ = glm::normalize(glm::cross(front_dir_, world_up_dir_));
+	up_dir_ = glm::normalize(glm::cross(right_dir_, front_dir_));
 }
 
-void Camera::ProcessMouseMovement(float offset_x, float offset_y) {
-	offset_x *= MOUSE_SENSITIVITY;
-	offset_y *= MOUSE_SENSITIVITY;
-
-	pitch_ += offset_y;
-	yaw_   += offset_x;
-
-	if (pitch_ > 89.0f)
-		pitch_ =  89.0f;
-	if (pitch_ < -89.0f)
-		pitch_ = -89.0f;
-
-	UpdateCameraVectors();
-}
-
-void Camera::ProcessZoom(float offset) {
-	if(fov_ >= 1.0f && fov_ <= 45.0f)
-		fov_ -= offset;
-	if(fov_ <= 1.0f)
-		fov_ = 1.0f;
-	if(fov_ >= 45.0f)
-		fov_ = 45.0f;
-}
-
-void Camera::UpdateCameraVectors() {
-	glm::vec3 front;
-	front.x = cosf(glm::radians(yaw_)) * cosf(glm::radians(pitch_));
-	front.y = sinf(glm::radians(pitch_));
-	front.z = sinf(glm::radians(yaw_)) * cosf(glm::radians(pitch_));
-	camera_front_ = glm::normalize(front);
-	// Also re-calculate the Right and Up vector
-	camera_right_ = glm::normalize(glm::cross(camera_front_, world_up));  // Normalize the vectors, because their length gets closer to 0 the more you look up or down which results in slower movement.
-	camera_up_ = glm::normalize(glm::cross(camera_right_, camera_front_));
+void Camera::SetFrontDirection(const glm::vec3& front_dir) {
+	front_dir_ = glm::normalize(front_dir);
+	// Normalize the vectors, because their length gets closer to 0 the more you look up or down which results in slower movement.
+	right_dir_ = glm::normalize(glm::cross(front_dir_, world_up_dir_));
+	up_dir_ = glm::normalize(glm::cross(right_dir_, front_dir_));
 }
 
 }
