@@ -2,6 +2,8 @@
 
 namespace Mantis {
 
+namespace GFX {
+
 Camera::Camera(float fov, float aspect_ratio, float near, float far)
 	: fov_(fov), aspect_ratio_(aspect_ratio), near_(near), far_(far)
 { }
@@ -24,4 +26,5 @@ void Camera::SetFrontDirection(const glm::vec3& front_dir) {
 	up_dir_ = glm::normalize(glm::cross(right_dir_, front_dir_));
 }
 
+}
 }

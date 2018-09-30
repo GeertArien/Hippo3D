@@ -2,12 +2,12 @@
 cmake_minimum_required(VERSION 3.10)
 project(Mantis)
 
-add_subdirectory(source/shaders)
+add_subdirectory(source/gfx/shaders)
 
 # Source files
 set(SRC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/source")
 set(LIB_DIR "${CMAKE_CURRENT_SOURCE_DIR}/libraries")
-set(SOURCES "${SRC_DIR}/main.cpp" source/core/ShaderProgram.cpp source/core/ShaderProgram.h source/shaders/shaders.h source/shaders/shaders.cpp source/core/Texture.cpp source/core/Texture.h source/interface/display/Window.cpp source/interface/display/Window.h source/core/Renderer.cpp source/core/Renderer.h source/core/Camera.cpp source/core/Camera.h source/core/Scene.cpp source/core/Scene.h source/GL_impl.h source/core/Mesh.cpp source/core/Mesh.h source/core/Object.cpp source/core/Object.h source/core/Material.cpp source/core/Material.h source/interface/input/InputManager.cpp source/interface/input/InputManager.h source/examples/App.cpp source/examples/App.h source/interface/controls/FirstPersonControls.cpp source/interface/controls/FirstPersonControls.h source/interface/input/Key.h)
+set(SOURCES "${SRC_DIR}/main.cpp" source/gfx/shaders/shaders.h source/gfx/shaders/shaders.cpp source/gfx/scene/Texture.cpp source/gfx/scene/Texture.h source/interface/display/Window.cpp source/interface/display/Window.h source/gfx/renderer/Renderer.cpp source/gfx/renderer/Renderer.h source/gfx/scene/Camera.cpp source/gfx/scene/Camera.h source/gfx/scene/Scene.cpp source/gfx/scene/Scene.h source/gfx/renderer/GL_impl.h source/gfx/scene/Mesh.cpp source/gfx/scene/Mesh.h source/gfx/scene/Object.cpp source/gfx/scene/Object.h source/gfx/scene/Material.cpp source/gfx/scene/Material.h source/interface/input/InputManager.cpp source/interface/input/InputManager.h source/examples/App.cpp source/examples/App.h source/interface/controls/FirstPersonControls.cpp source/interface/controls/FirstPersonControls.h source/interface/input/Key.h source/gfx/renderer/RenderFactory.cpp source/gfx/renderer/RenderFactory.h source/gfx/renderer/RenderUtility.h)
 
 # Executable definition and properties
 add_executable(${PROJECT_NAME} ${SOURCES})

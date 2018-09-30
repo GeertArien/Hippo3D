@@ -1,10 +1,11 @@
 #include "FirstPersonControls.h"
 #include <GLFW/glfw3.h>
 #include "interface/input/InputManager.h"
-#include "core/Camera.h"
+#include "gfx/scene/Camera.h"
 
 
 namespace Mantis {
+namespace Controls {
 
 void FirstPersonControls::SetKey(const Movement& movement, Input::Key key) {
 	switch (movement) {
@@ -23,13 +24,13 @@ void FirstPersonControls::SetKey(const Movement& movement, Input::Key key) {
 	}
 }
 
-void FirstPersonControls::ProcessInput(const Input::InputManager& inputManager, Mantis::Camera& camera) {
+void FirstPersonControls::ProcessInput(const Input::InputManager& inputManager, GFX::Camera& camera) {
 	ProcessFPSMovement(inputManager, camera);
 	ProcessMouseMove(inputManager, camera);
 	ProcessScroll(inputManager, camera);
 }
 
-void FirstPersonControls::ProcessFPSMovement(const Input::InputManager& inputManager, Mantis::Camera& camera) {
+void FirstPersonControls::ProcessFPSMovement(const Input::InputManager& inputManager, GFX::Camera& camera) {
 	auto current_frame = static_cast<float>(glfwGetTime());
 	const float delta_time = current_frame - last_frame_;
 	last_frame_ = current_frame;
@@ -53,7 +54,7 @@ void FirstPersonControls::ProcessFPSMovement(const Input::InputManager& inputMan
 	camera.SetPosition(camera_position);
 }
 
-void FirstPersonControls::ProcessMouseMove(const Input::InputManager& inputManager, Mantis::Camera& camera) {
+void FirstPersonControls::ProcessMouseMove(const Input::InputManager& inputManager, GFX::Camera& camera) {
 	Input::Position cursor_position = inputManager.GetCursorPosition();
 
 	auto pos_x_f = static_cast<float>(cursor_position.x);
@@ -86,7 +87,7 @@ void FirstPersonControls::ProcessMouseMove(const Input::InputManager& inputManag
 	camera.SetFrontDirection(front);
 }
 
-void FirstPersonControls::ProcessScroll(const Input::InputManager& inputManager, Mantis::Camera& camera) {
+void FirstPersonControls::ProcessScroll(const Input::InputManager& inputManager, GFX::Camera& camera) {
 	Input::Position scroll_position = inputManager.GetScrollPosition();
 	auto pos_y_f = static_cast<float>(scroll_position.y);
 	const float new_fov = camera.GetFOV() - pos_y_f;
@@ -99,4 +100,5 @@ void FirstPersonControls::ProcessScroll(const Input::InputManager& inputManager,
 		camera.SetFOV(45.0f);
 }
 
+}
 }

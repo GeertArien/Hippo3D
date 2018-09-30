@@ -5,29 +5,28 @@
 
 namespace Mantis {
 
-	class Window final {
+	namespace Display {
 
-	public:
-		Window(int width, int height, const std::string& title);
+		class Window final {
 
-		void SetShouldClose(bool should_close) const
-		{ glfwSetWindowShouldClose(glfw_window_, should_close); };
+		public:
+			Window(int width, int height, const std::string& title);
 
-		bool ShouldClose() const
-		{ return glfwWindowShouldClose(glfw_window_) > 0; };
+			void SetShouldClose(bool should_close) const { glfwSetWindowShouldClose(glfw_window_, should_close); };
 
-		void SwapBuffers() const
-		{ glfwSwapBuffers(glfw_window_); }
+			bool ShouldClose() const { return glfwWindowShouldClose(glfw_window_) > 0; };
 
-		GLFWwindow* operator*() const
-		{ return glfw_window_; }
+			void SwapBuffers() const { glfwSwapBuffers(glfw_window_); }
 
-	private:
-		GLFWwindow* glfw_window_;
+			GLFWwindow* operator*() const { return glfw_window_; }
 
-		static void FrameBufferSizeCallback(GLFWwindow*, int width, int height);
+		private:
+			GLFWwindow* glfw_window_;
+
+			static void FrameBufferSizeCallback(GLFWwindow*, int width, int height);
 
 
-	};
+		};
 
+	}
 }

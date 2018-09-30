@@ -1,13 +1,14 @@
 #include "Renderer.h"
-#include "Scene.h"
-#include "ShaderProgram.h"
-#include "Texture.h"
-#include "GL_impl.h"
-#include "Camera.h"
-#include "Mesh.h"
+#include <vector>
 #include <glm.hpp>
 #include <gtc/matrix_transform.hpp>
-#include <vector>
+#include "GL_impl.h"
+#include "gfx/scene/Scene.h"
+#include "gfx/scene/Texture.h"
+#include "gfx/scene/Camera.h"
+#include "gfx/scene/Mesh.h"
+#include "RenderFactory.h"
+#include "RenderUtility.h"
 
 #if EMSCRIPTEN
 #include <emscripten/emscripten.h>
@@ -15,6 +16,7 @@
 
 
 namespace Mantis {
+namespace GFX {
 
 //void testing(void* renderer_p) {
 //	auto renderer = reinterpret_cast<Renderer*>(renderer_p);
@@ -35,6 +37,12 @@ void Renderer::Setup(Scene& scene) {
 			glBindBuffer(GL_ARRAY_BUFFER, VBO);
 			glBufferData(GL_ARRAY_BUFFER, mesh.GetDataSize(), mesh.GetDataPointer(), GL_STATIC_DRAW);
 			vbo_map_[id] = VBO;
+		}
+
+		const std::string shader_name = object.GetMaterial().GetShaderName();
+
+		if (shader_map_.find(shader_name) == shader_map_.end()) {
+			shader_map_[shader_name] = RenderFactory::InitShader(shader_name);
 		}
 	}
 
@@ -62,14 +70,16 @@ void Renderer::Render(Scene& scene, Camera& camera) const {
 	// ------
 
 	for (const auto& object : scene.GetObjects()) {
-		const ShaderProgram& shader_program = object.GetMaterial().GetShaderProgram();
-		glUseProgram(shader_program.GetID());
-		shader_program.SetUniform("projection", camera.GetProjectionMatrix());
-		shader_program.SetUniform("view", camera.GetViewMatrix());
-		shader_program.SetUniform("model", object.GetModelMatrix());
+		const std::string shader_name = object.GetMaterial().GetShaderName();
+		const unsigned int shader_id = shader_map_.at(shader_name);
+		glUseProgram(shader_id);
+		SetUniform(shader_id, "projection", camera.GetProjectionMatrix());
+		SetUniform(shader_id, "view", camera.GetViewMatrix());
+		SetUniform(shader_id, "model", object.GetModelMatrix());
 
 		glDrawArrays(GL_TRIANGLES, 0, 36);
 	}
 }
 
+}
 }

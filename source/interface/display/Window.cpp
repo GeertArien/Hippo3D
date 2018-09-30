@@ -1,12 +1,13 @@
 #include "Window.h"
-#include "core/Camera.h"
-#include "GL_impl.h"
+#include "gfx/scene/Camera.h"
+#include "gfx/renderer/GL_impl.h"
 #include <stdexcept>
 #include <glm.hpp>
 #include <gtc/matrix_transform.hpp>
 
 
 namespace Mantis {
+namespace Display {
 
 Window::Window(int width, int height, const std::string& title) {
 	glfwInit();
@@ -38,4 +39,5 @@ void Window::FrameBufferSizeCallback(GLFWwindow*, int width, int height) {
 }
 
 
+}
 }

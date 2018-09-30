@@ -1,42 +1,32 @@
-#include "ShaderProgram.h"
-
+#include "RenderFactory.h"
+#include "gfx/shaders/shaders.h"
 #include "GL_impl.h"
-#include <stdexcept>
-#include <gtc/type_ptr.hpp>
 
-#include "shaders/shaders.h"
 
 namespace Mantis {
+namespace GFX {
 
-ShaderProgram::ShaderProgram(const std::string& name) {
+unsigned int RenderFactory::InitShader(const std::string& name) {
 	std::string vertex_shader, fragment_shader;
 	try {
-		vertex_shader = Shader::VERTEX_SHADERS.at(name);
+		vertex_shader = VERTEX_SHADERS.at(name);
 	}
 	catch (const std::out_of_range& e) {
 		throw std::runtime_error("Invalid vertex shader name: " + name);
 	}
 
 	try {
-		fragment_shader = Shader::FRAGMENT_SHADERS.at(name);
+		fragment_shader = FRAGMENT_SHADERS.at(name);
 	}
 	catch (const std::out_of_range& e) {
 		throw std::runtime_error("Invalid fragment shader name: " + name);
 	}
 
-	ID_ = CreateShaderProgram(vertex_shader.c_str(), fragment_shader.c_str());
+	return CreateShaderProgram(vertex_shader.c_str(), fragment_shader.c_str());
 }
 
-void ShaderProgram::SetUniform(const std::string& name, const unsigned int value) const {
-	glUniform1i(glGetUniformLocation(ID_, name.c_str()), value);
-}
-
-void ShaderProgram::SetUniform(const std::string& name, const glm::mat4& matrix) const {
-	glUniformMatrix4fv(glGetUniformLocation(ID_, name.c_str()), 1, GL_FALSE, glm::value_ptr(matrix));
-}
-
-unsigned int ShaderProgram::CreateShaderProgram(const char* vertex_shader_source,
-												const char* fragment_shader_source) const
+unsigned int RenderFactory::CreateShaderProgram(const char* vertex_shader_source,
+												const char* fragment_shader_source)
 {
 	unsigned int vertex_shader = CompileShader(vertex_shader_source, GL_VERTEX_SHADER);
 	unsigned int fragment_shader = CompileShader(fragment_shader_source, GL_FRAGMENT_SHADER);
@@ -51,7 +41,7 @@ unsigned int ShaderProgram::CreateShaderProgram(const char* vertex_shader_source
 	glGetProgramiv(shader_program, GL_LINK_STATUS, &success);
 	if(!success) {
 		char info_log[512];
-		glGetProgramInfoLog(shader_program, 512, NULL, info_log);
+		glGetProgramInfoLog(shader_program, 512, nullptr, info_log);
 		throw std::runtime_error("Shader linking failed:\n" + std::string(info_log));
 	}
 
@@ -61,7 +51,7 @@ unsigned int ShaderProgram::CreateShaderProgram(const char* vertex_shader_source
 	return shader_program;
 }
 
-unsigned int ShaderProgram::CompileShader(const char* shader_source, unsigned int shader_type) const {
+unsigned int RenderFactory::CompileShader(const char* shader_source, unsigned int shader_type) {
 	unsigned int shader;
 	shader = glCreateShader(shader_type);
 	glShaderSource(shader, 1, &shader_source, nullptr);
@@ -79,4 +69,5 @@ unsigned int ShaderProgram::CompileShader(const char* shader_source, unsigned in
 	return shader;
 }
 
+}
 }

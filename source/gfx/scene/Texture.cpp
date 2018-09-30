@@ -1,9 +1,10 @@
 #include "Texture.h"
 #include <stdexcept>
-#include "GL_impl.h"
+#include "gfx/renderer/GL_impl.h"
 #include <stb_image.h>
 
 namespace Mantis {
+namespace GFX {
 
 Texture::Texture(const std::string& uri) : ID_(CreateTextureUnit(uri))
 { }
@@ -48,5 +49,5 @@ unsigned int Texture::CreateTextureUnit(const std::string& uri) const {
 	return texture_index;
 }
 
-
+}
 }

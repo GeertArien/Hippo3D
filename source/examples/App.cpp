@@ -1,5 +1,5 @@
 #include "interface/input/InputManager.h"
-#include "core/Renderer.h"
+#include "gfx/renderer/Renderer.h"
 #include "interface/controls/FirstPersonControls.h"
 #include "App.h"
 
@@ -29,16 +29,14 @@ App::App() :
 	input_manager.DisableCursor();
 //	input_manager.SetScrollCallback(OnMouseScroll);
 
-	auto key = Input::Key::W;
-
-	FirstPersonControls fp_controls;
-	fp_controls.SetKey(FirstPersonControls::Movement::FORWARD, Input::Key::W);
-	fp_controls.SetKey(FirstPersonControls::Movement::BACKWARD, Input::Key::S);
-	fp_controls.SetKey(FirstPersonControls::Movement::RIGHT, Input::Key::D);
-	fp_controls.SetKey(FirstPersonControls::Movement::LEFT, Input::Key::A);
+	Controls::FirstPersonControls fp_controls;
+	fp_controls.SetKey(Controls::FirstPersonControls::Movement::FORWARD, Input::Key::W);
+	fp_controls.SetKey(Controls::FirstPersonControls::Movement::BACKWARD, Input::Key::S);
+	fp_controls.SetKey(Controls::FirstPersonControls::Movement::RIGHT, Input::Key::D);
+	fp_controls.SetKey(Controls::FirstPersonControls::Movement::LEFT, Input::Key::A);
 
 
-	Object default_object;
+	GFX::Object default_object;
 	default_object.SetMesh({
 								   -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
 								   0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
@@ -97,12 +95,12 @@ App::App() :
 	};
 
 	for (const auto& cube_position : cube_positions) {
-		Object object = default_object;
+		GFX::Object object = default_object;
 		object.SetPosition(cube_position);
 		scene_.AddObject(std::move(object));
 	}
 
-	Renderer renderer;
+	GFX::Renderer renderer;
 
 	renderer.Setup(scene_);
 

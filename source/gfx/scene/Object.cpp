@@ -2,6 +2,7 @@
 #include "Object.h"
 
 namespace Mantis {
+namespace GFX {
 
 void Object::SetMesh(std::initializer_list<Mesh::unit> vertice_data) {
 	mesh_ = std::make_shared<Mesh>(vertice_data);
@@ -25,3 +26,4 @@ void Object::UpdateModelMatrix() {
 }
 
 }
+ }

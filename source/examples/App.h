@@ -1,9 +1,9 @@
 #pragma once
 
 #include "interface/display/Window.h"
-#include "core/Camera.h"
+#include "gfx/scene/Camera.h"
 #include "interface/input/InputManager.h"
-#include "core/Scene.h"
+#include "gfx/scene/Scene.h"
 
 class App {
 
@@ -11,9 +11,9 @@ public:
 	App();
 
 private:
-	Mantis::Window window_;
-	Mantis::Scene scene_;
-	Mantis::Camera camera_;
+	Mantis::Display::Window window_;
+	Mantis::GFX::Scene scene_;
+	Mantis::GFX::Camera camera_;
 
 };
 

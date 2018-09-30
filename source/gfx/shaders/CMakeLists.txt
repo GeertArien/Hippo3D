@@ -1,7 +1,7 @@
 file(WRITE shaders.cpp "#include \"shaders.h\"
 
 namespace Mantis {
-namespace Shader {
+namespace GFX {
 ")
 
 
