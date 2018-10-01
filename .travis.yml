@@ -19,6 +19,7 @@ addons:
     - cmake-data
     - gcc-7
     - g++-7
+    - xorg-dev
 
 script:
 - mkdir build
