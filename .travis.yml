@@ -17,8 +17,8 @@ addons:
     packages:
     - cmake
     - cmake-data
-    - gcc-7.3
-    - g++-7.3
+    - gcc-7
+    - g++-7
 
 script:
 - mkdir build
