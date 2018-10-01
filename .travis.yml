@@ -24,4 +24,4 @@ script:
 - mkdir build
 - cd build
 - cmake --version
-- ${DEPS_DIR}/cmake/bin/cmake .. && make
+- cmake .. && make
