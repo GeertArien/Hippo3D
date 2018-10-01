@@ -21,6 +21,10 @@ addons:
     - g++-7
     - xorg-dev
 
+install:
+  - update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-7 60
+  - update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-7 60
+
 script:
 - mkdir build
 - cd build
