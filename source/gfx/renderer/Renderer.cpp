@@ -10,19 +10,9 @@
 #include "RenderFactory.h"
 #include "RenderUtility.h"
 
-#if EMSCRIPTEN
-#include <emscripten/emscripten.h>
-#endif
-
 
 namespace Mantis {
 namespace GFX {
-
-//void testing(void* renderer_p) {
-//	auto renderer = reinterpret_cast<Renderer*>(renderer_p);
-//	renderer->BeforeRenderPass();
-//	renderer->RenderPass();
-//}
 
 void Renderer::Setup(Scene& scene) {
 	glEnable(GL_DEPTH_TEST);

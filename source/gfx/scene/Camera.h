@@ -19,7 +19,7 @@ namespace Mantis {
 		public:
 			Camera(float fov, float aspect_ratio, float near, float far);
 
-			float SetFOV(const float fov) { fov_ = fov; }
+			void SetFOV(const float fov) { fov_ = fov; }
 
 			void SetPosition(const glm::vec3& position);
 

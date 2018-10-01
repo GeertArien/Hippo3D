@@ -1,7 +1,9 @@
-#include "interface/input/InputManager.h"
-#include "gfx/renderer/Renderer.h"
-#include "interface/controls/FirstPersonControls.h"
 #include "App.h"
+#include <array>
+
+#if EMSCRIPTEN
+#include <emscripten/emscripten.h>
+#endif
 
 
 // settings
@@ -20,20 +22,19 @@ using namespace Mantis;
 App::App() :
 		window_(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_TITLE),
 		scene_(),
-		camera_(FOV, static_cast<float>(WINDOW_WIDTH) / static_cast<float>(WINDOW_HEIGHT), NEAR_CLIP_PLANE, FAR_CLIP_PLANE)
+		camera_(FOV, static_cast<float>(WINDOW_WIDTH) / static_cast<float>(WINDOW_HEIGHT), NEAR_CLIP_PLANE, FAR_CLIP_PLANE),
+		input_manager_(*window_)
 {
 	camera_.SetPosition(glm::vec3(0.0f, 0.0f,  3.0f));
 	camera_.SetOrientation(glm::vec3(0.0f, 0.0f, -1.0f), glm::vec3(0.0f, 1.0f,  0.0f));
 
-	Input::InputManager input_manager(*window_);
-	input_manager.DisableCursor();
+	input_manager_.DisableCursor();
 //	input_manager.SetScrollCallback(OnMouseScroll);
 
-	Controls::FirstPersonControls fp_controls;
-	fp_controls.SetKey(Controls::FirstPersonControls::Movement::FORWARD, Input::Key::W);
-	fp_controls.SetKey(Controls::FirstPersonControls::Movement::BACKWARD, Input::Key::S);
-	fp_controls.SetKey(Controls::FirstPersonControls::Movement::RIGHT, Input::Key::D);
-	fp_controls.SetKey(Controls::FirstPersonControls::Movement::LEFT, Input::Key::A);
+	first_person_controls_.SetKey(Controls::FirstPersonControls::Movement::FORWARD, Input::Key::W);
+	first_person_controls_.SetKey(Controls::FirstPersonControls::Movement::BACKWARD, Input::Key::S);
+	first_person_controls_.SetKey(Controls::FirstPersonControls::Movement::RIGHT, Input::Key::D);
+	first_person_controls_.SetKey(Controls::FirstPersonControls::Movement::LEFT, Input::Key::A);
 
 
 	GFX::Object default_object;
@@ -100,38 +101,46 @@ App::App() :
 		scene_.AddObject(std::move(object));
 	}
 
-	GFX::Renderer renderer;
-
-	renderer.Setup(scene_);
+	renderer_.Setup(scene_);
 
 #if EMSCRIPTEN
-	emscripten_set_main_loop_arg(testing, this, 60, 1);
+	emscripten_set_main_loop_arg(ExecuteMainLoop, this, 60, 1);
 #else
 	while(!window_.ShouldClose()) {
-
-		input_manager.ProcessInput();
-
-		fp_controls.ProcessInput(input_manager, camera_);
-
-		if (input_manager.IsKeyPressed(Input::Key::ESCAPE)) {
-			window_.SetShouldClose(true);
-			continue;
-		}
-
-		// change rotations
-		size_t i = 0;
-		for (auto& object : scene_.GetObjects()) {
-			const float angle = 20.0f * i++ + 10.f;
-			object.SetRotation((float)glfwGetTime() * glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
-		}
-
-		renderer.Render(scene_, camera_);
-		window_.SwapBuffers();
+		MainLoop();
 	}
 #endif
 
-	renderer.TearDown();
+	renderer_.TearDown();
 }
+
+void App::MainLoop(){
+	input_manager_.ProcessInput();
+
+	first_person_controls_.ProcessInput(input_manager_, camera_);
+
+	if (input_manager_.IsKeyPressed(Input::Key::ESCAPE)) {
+		window_.SetShouldClose(true);
+		return;
+	}
+
+	// change rotations
+	size_t i = 0;
+	for (auto& object : scene_.GetObjects()) {
+		const float angle = 20.0f * i++ + 10.f;
+		object.SetRotation((float)glfwGetTime() * glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
+	}
+
+	renderer_.Render(scene_, camera_);
+	window_.SwapBuffers();
+}
+
+#if EMSCRIPTEN
+void App::ExecuteMainLoop(void* app_p) {
+	auto app = reinterpret_cast<App*>(app_p);
+	app->MainLoop();
+}
+#endif
 
 
 //void App::OnMouseScroll(void* target, double pos_x, double pos_y) {
