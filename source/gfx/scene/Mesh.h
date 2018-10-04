@@ -23,7 +23,7 @@ namespace Mantis {
 
 			const float* GetDataPointer() const noexcept { return vertice_data_.data(); }
 
-			const size_t GetDataSize() const noexcept { return vertice_data_.size() * sizeof(unit); }
+			size_t GetDataSize() const noexcept { return vertice_data_.size() * sizeof(unit); }
 
 		private:
 			unsigned int id_ = 0;

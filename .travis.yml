@@ -1,9 +1,8 @@
 matrix:
   include:
     - name: ubuntu 14.04 gcc-7 build
-      sudo: required
+      sudo: false
       language: cpp
-      compiler: gcc
       dist: trusty
       os:
       - linux
@@ -18,42 +17,29 @@ matrix:
           - gcc-7
           - g++-7
           - xorg-dev
-      env:
-      - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
-      before_install:
-      - eval "${MATRIX_EVAL}"
       script:
-      - mkdir build
-      - cd build
-      - cmake --version
-      - cmake .. && make
+      - CXX=/usr/bin/g++-6 CC=/usr/bin/gcc-6 cmake .
+      - cmake --build .
 
     - name: ubuntu 14.04 clang-5 build
-      sudo: required
+      sudo: false
       language: cpp
-      compiler: clang
       dist: trusty
       os:
       - linux
       addons:
         apt:
           sources:
-          - llvm-toolchain-trusty-6.0
+          - llvm-toolchain-trusty-5.0
           - george-edison55-precise-backports
           packages:
           - cmake
           - cmake-data
-          - clang-6.0
+          - clang-5.0
           - xorg-dev
-      env:
-      - MATRIX_EVAL="CC=clang-6.0 && CXX=clang++-6.0"
-      before_install:
-      - eval "${MATRIX_EVAL}"
       script:
-      - mkdir build
-      - cd build
-      - cmake --version
-      - cmake .. && make
+      - CXX=/usr/bin/clang++-5.0 CC=/usr/bin/clang-5.0 cmake .
+      - cmake --build .
 
     - name: emscripten 1.38.12-64bit build
       sudo: required

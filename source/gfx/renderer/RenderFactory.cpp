@@ -11,14 +11,14 @@ unsigned int RenderFactory::InitShader(const std::string& name) {
 	try {
 		vertex_shader = VERTEX_SHADERS.at(name);
 	}
-	catch (const std::out_of_range& e) {
+	catch (const std::out_of_range&) {
 		throw std::runtime_error("Invalid vertex shader name: " + name);
 	}
 
 	try {
 		fragment_shader = FRAGMENT_SHADERS.at(name);
 	}
-	catch (const std::out_of_range& e) {
+	catch (const std::out_of_range&) {
 		throw std::runtime_error("Invalid fragment shader name: " + name);
 	}
 
