@@ -3,7 +3,6 @@ matrix:
     - sudo: required
       language: cpp
       dist: trusty
-      compiler: gcc
       os:
       - linux
       addons:
@@ -17,9 +16,27 @@ matrix:
           - gcc-7
           - g++-7
           - xorg-dev
-      install:
-        - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-7 60
-        - sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-7 60
+      script:
+      - mkdir build
+      - cd build
+      - cmake --version
+      - cmake .. && make
+
+    - sudo: required
+      language: cpp
+      dist: trusty
+      os:
+      - linux
+      addons:
+        apt:
+          sources:
+          - llvm-toolchain-trusty-5.0
+          - george-edison55-precise-backports
+          packages:
+          - cmake
+          - cmake-data
+          - clang-5.0
+          - xorg-dev
       script:
       - mkdir build
       - cd build
