@@ -1,6 +1,7 @@
 matrix:
   include:
-    - sudo: required
+    - name: ubuntu 14.04 gcc-7 build
+      sudo: required
       language: cpp
       dist: trusty
       os:
@@ -16,13 +17,18 @@ matrix:
           - gcc-7
           - g++-7
           - xorg-dev
+      env:
+      - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
+      before_install:
+      - eval "${MATRIX_EVAL}"
       script:
       - mkdir build
       - cd build
       - cmake --version
       - cmake .. && make
 
-    - sudo: required
+    - name: ubuntu 14.04 clang-5 build
+      sudo: required
       language: cpp
       dist: trusty
       os:
@@ -37,13 +43,18 @@ matrix:
           - cmake-data
           - clang-5.0
           - xorg-dev
+      env:
+      - MATRIX_EVAL="CC=clang-5.0 && CXX=clang++-5.0"
+      before_install:
+      - eval "${MATRIX_EVAL}"
       script:
       - mkdir build
       - cd build
       - cmake --version
       - cmake .. && make
 
-    - sudo: required
+    - name: emscripten 1.38.12-64bit build
+      sudo: required
       language: node_js
       dist: trusty
       os:
@@ -53,7 +64,7 @@ matrix:
       services:
       - docker
       before_install:
-      - docker run -dit --name emscripten -v $(pwd):/src trzeci/emscripten:sdk-incoming-64bit bash
+      - docker run -dit --name emscripten -v $(pwd):/src trzeci/emscripten:sdk-tag-1.38.12-64bit bash
       script:
       - docker exec -it emscripten emconfigure cmake .
       - docker exec -it emscripten emmake make
