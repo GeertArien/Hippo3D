@@ -18,7 +18,7 @@ matrix:
           - g++-7
           - xorg-dev
       script:
-      - CXX=/usr/bin/g++-6 CC=/usr/bin/gcc-6 cmake .
+      - CXX=/usr/bin/g++-7 CC=/usr/bin/gcc-7 cmake .
       - cmake --build .
 
     - name: ubuntu 14.04 clang-5 build
