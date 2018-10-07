@@ -1,9 +1,17 @@
-attribute vec3 aPos;
+#version 100
 
-uniform mat4 model;
-uniform mat4 view;
-uniform mat4 projection;
+struct matrix_state
+{
+    mat4 model;
+    mat4 view;
+    mat4 projection;
+};
 
-void main() {
-    gl_Position = projection * view * model * vec4(aPos, 1.0);
+uniform matrix_state matrix;
+
+attribute vec3 attr_vertex;
+
+void main()
+{
+    gl_Position = ((matrix.projection * matrix.view) * matrix.model) * vec4(attr_vertex, 1.0);
 }

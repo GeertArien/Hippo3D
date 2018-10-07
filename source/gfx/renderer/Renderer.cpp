@@ -63,9 +63,9 @@ void Renderer::Render(Scene& scene, Camera& camera) const {
 		const std::string shader_name = object.GetMaterial().GetShaderName();
 		const unsigned int shader_id = shader_map_.at(shader_name);
 		glUseProgram(shader_id);
-		SetUniform(shader_id, "projection", camera.GetProjectionMatrix());
-		SetUniform(shader_id, "view", camera.GetViewMatrix());
-		SetUniform(shader_id, "model", object.GetModelMatrix());
+		SetUniform(shader_id, "matrix.projection", camera.GetProjectionMatrix());
+		SetUniform(shader_id, "matrix.view", camera.GetViewMatrix());
+		SetUniform(shader_id, "matrix.model", object.GetModelMatrix());
 
 		glDrawArrays(GL_TRIANGLES, 0, 36);
 	}
