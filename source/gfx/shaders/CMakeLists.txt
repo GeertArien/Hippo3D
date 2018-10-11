@@ -1,55 +1,16 @@
-file(WRITE shaders.cpp "#include \"shaders.h\"
+set(SHADER_NAME ${CMAKE_CURRENT_SOURCE_DIR}/flat.frag.glsl)
+set(SHADER_GEN_TOOL "${CMAKE_SOURCE_DIR}/tools/shader-export.py")
 
-namespace Mantis {
-namespace GFX {
-")
+add_custom_command(
+        COMMAND ${PYTHON_EXECUTABLE} ${SHADER_GEN_TOOL} -i ${SHADER_NAME} -o ${SHADER_NAME}.test -l glsl-100-es
+        DEPENDS ${SHADER_GEN_TOOL} ${SHADER_NAME}
+        OUTPUT ${SHADER_NAME}.cpp ${SHADER_NAME}.h
+        COMMENT "Generating code for ${SHADER_NAME}."
+)
 
+add_custom_target(
+        shaders
+        DEPENDS ${SHADER_NAME}.cpp ${SHADER_NAME}.h
+)
 
-# write fragment shaders to FRAGMENT_SHADERS map
-file(APPEND shaders.cpp "
-const std::map<std::string, std::string> FRAGMENT_SHADERS {
-")
-
-file(GLOB FILES "*.frag.glsl")
-
-foreach(FILE ${FILES})
-    get_filename_component(FILE_NAME ${FILE} NAME)
-    string(REGEX REPLACE "\\.frag.glsl$" "" SHADER_NAME ${FILE_NAME})
-    file(READ "${FILE}" SHADER)
-
-    file(APPEND shaders.cpp "
-    {
-        \"${SHADER_NAME}\",
-        R\"(${SHADER})\"
-    },
-")
-endforeach()
-
-file(APPEND shaders.cpp "};
-")
-
-
-# write vertex shaders to VERTEX_SHADERS map
-file(APPEND shaders.cpp "
-const std::map<std::string, std::string> VERTEX_SHADERS {
-")
-
-file(GLOB FILES "*.vert.glsl")
-
-foreach(FILE ${FILES})
-    get_filename_component(FILE_NAME ${FILE} NAME)
-    string(REGEX REPLACE "\\.vert.glsl$" "" SHADER_NAME ${FILE_NAME})
-    file(READ "${FILE}" SHADER)
-
-    file(APPEND shaders.cpp "
-    {
-        \"${SHADER_NAME}\",
-        R\"(${SHADER})\"
-    },
-")
-endforeach()
-
-file(APPEND shaders.cpp "};
-
-}
-}")
+add_dependencies(Mantis shaders)

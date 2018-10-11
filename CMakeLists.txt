@@ -2,8 +2,6 @@
 cmake_minimum_required(VERSION 3.7.2)
 project(Mantis)
 
-add_subdirectory(source/gfx/shaders)
-
 # Source files
 set(SRC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/source")
 set(LIB_DIR "${CMAKE_CURRENT_SOURCE_DIR}/libraries")
@@ -13,6 +11,8 @@ set(SOURCES "${SRC_DIR}/main.cpp" source/gfx/shaders/shaders.h source/gfx/shader
 add_executable(${PROJECT_NAME} ${SOURCES})
 target_include_directories(${PROJECT_NAME} PRIVATE "${SRC_DIR}")
 set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 14)
+
+add_subdirectory(source/gfx/shaders)
 
 if(EMSCRIPTEN)
 target_compile_definitions(${PROJECT_NAME} PRIVATE GLFW_INCLUDE_ES2=1)
