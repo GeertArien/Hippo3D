@@ -1,5 +1,6 @@
 #include "RenderFactory.h"
-#include "gfx/shaders/shaders.h"
+#include <stdexcept>
+#include "../../gfx/shaders/shaders.h"
 #include "GL_impl.h"
 
 
@@ -9,14 +10,14 @@ namespace GFX {
 unsigned int RenderFactory::InitShader(const std::string& name) {
 	std::string vertex_shader, fragment_shader;
 	try {
-		vertex_shader = VERTEX_SHADERS.at(name);
+		vertex_shader = Shaders::flat::vertex_shader;
 	}
 	catch (const std::out_of_range&) {
 		throw std::runtime_error("Invalid vertex shader name: " + name);
 	}
 
 	try {
-		fragment_shader = FRAGMENT_SHADERS.at(name);
+		fragment_shader = Shaders::flat::fragment_shader;
 	}
 	catch (const std::out_of_range&) {
 		throw std::runtime_error("Invalid fragment shader name: " + name);
