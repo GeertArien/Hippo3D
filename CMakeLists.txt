@@ -13,6 +13,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE "${SRC_DIR}")
 set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 14)
 
 add_subdirectory(source/gfx/shaders)
+target_link_libraries(Mantis shaders)
 
 if(EMSCRIPTEN)
 target_compile_definitions(${PROJECT_NAME} PRIVATE GLFW_INCLUDE_ES2=1)

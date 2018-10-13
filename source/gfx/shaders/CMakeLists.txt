@@ -2,18 +2,20 @@ set(SHADER_NAME shaders)
 set(SHADER_INPUT_FILE ${CMAKE_CURRENT_SOURCE_DIR}/${SHADER_NAME}.glsl)
 set(SHADER_GEN_TOOL "${CMAKE_SOURCE_DIR}/tools/shader-export.py")
 
+set(OUTPUTS "${CMAKE_CURRENT_BINARY_DIR}/${SHADER_NAME}.h"
+        "${CMAKE_CURRENT_BINARY_DIR}/${SHADER_NAME}.cpp")
+
 add_custom_command(
-        COMMAND ${PYTHON_EXECUTABLE} ${SHADER_GEN_TOOL} -i ${SHADER_INPUT_FILE} -o ${SHADER_NAME}.test -l glsl-100-es
+        OUTPUT ${OUTPUTS}
+        COMMAND ${PYTHON_EXECUTABLE} ${SHADER_GEN_TOOL} -i ${SHADER_INPUT_FILE} -l glsl-100-es
         DEPENDS ${SHADER_GEN_TOOL} ${SHADER_INPUT_FILE}
-        OUTPUT ${SHADER_NAME}.cpp ${SHADER_NAME}.h
         COMMENT "Generating code for ${SHADER_INPUT_FILE}."
 )
 
-add_custom_target(
-        shaders
-        DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/${SHADER_NAME}.cpp ${CMAKE_CURRENT_BINARY_DIR}/${SHADER_NAME}.h
+add_library(${SHADER_NAME} STATIC
+        ${OUTPUTS}
 )
 
-add_dependencies(Mantis shaders)
-target_include_directories(Mantis PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
-target_sources(Mantis PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/${SHADER_NAME}.cpp)
+set_property(TARGET ${SHADER_NAME} PROPERTY CXX_STANDARD 14)
+target_include_directories(${SHADER_NAME} PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
+target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_BINARY_DIR})

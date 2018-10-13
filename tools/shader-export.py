@@ -77,7 +77,6 @@ if __name__ == '__main__' :
 
     parser = argparse.ArgumentParser(description='Process some integers.')
     parser.add_argument('-i', '--input', required=True, help='Input file')
-    parser.add_argument('-o', '--output', required=True, help='Output file')
     parser.add_argument('-l', '--lang', required=True, help='Output shader language')
 
     args = parser.parse_args()
