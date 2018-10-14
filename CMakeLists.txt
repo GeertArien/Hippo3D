@@ -15,11 +15,11 @@ set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 14)
 add_subdirectory(source/gfx/shaders)
 target_link_libraries(Mantis shaders)
 
+# glfw
 if(EMSCRIPTEN)
 target_compile_definitions(${PROJECT_NAME} PRIVATE GLFW_INCLUDE_ES2=1)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s USE_GLFW=3 -s DISABLE_EXCEPTION_CATCHING=0")
 else()
-# glfw
 set(GLFW_DIR "${LIB_DIR}/glfw")
 set(GLFW_BUILD_EXAMPLES OFF CACHE INTERNAL "Build the GLFW example programs")
 set(GLFW_BUILD_TESTS OFF CACHE INTERNAL "Build the GLFW test programs")
@@ -48,4 +48,3 @@ target_link_libraries(${PROJECT_NAME} "stb")
 # glm
 set(glm_DIR "${LIB_DIR}/glm")
 target_include_directories(${PROJECT_NAME}  PRIVATE "${glm_DIR}/glm")
-
