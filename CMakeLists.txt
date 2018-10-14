@@ -12,6 +12,7 @@ add_executable(${PROJECT_NAME} ${SOURCES})
 target_include_directories(${PROJECT_NAME} PRIVATE "${SRC_DIR}")
 set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 14)
 
+# Generate shaders and add them to the project
 add_subdirectory(source/gfx/shaders)
 target_link_libraries(Mantis shaders)
 

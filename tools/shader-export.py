@@ -11,8 +11,6 @@ import tempfile
 import argparse
 import re
 
-ProjectDirectory = os.path.dirname(os.path.abspath(__file__)) + '/..'
-
 #-------------------------------------------------------------------------------
 def error(msg) :
     print("ERROR: {}".format(msg))
@@ -44,11 +42,13 @@ def convertShader(shader_program, type, dstLanguage) :
     file.write(shader_program)
     file.close()
 
-    cmdLine = [glslangTool, '-H', '-V', '-o', tmpFileSpirv, tmpFileInput ]
-    subprocess.call(args=cmdLine)
+    cmdLine = [glslangTool, '-V', '-o', tmpFileSpirv, tmpFileInput ]
+    if (subprocess.call(args=cmdLine) != 0) :
+        error("Error compiling shader to spir-v.")
 
     cmdLine = [mantisSpirvCross, '--input', tmpFileSpirv, '--output', tmpFileOutput, '--lang', dstLanguage]
-    subprocess.call(args=cmdLine)
+    if (subprocess.call(args=cmdLine) != 0) :
+        error("Error compiling spir-v shader to " + dstLanguage)
 
     file = open(tmpFileOutput, 'r')
     file_str = file.read()
@@ -92,7 +92,6 @@ if __name__ == '__main__' :
         parameters = file_str[shader_program.end():].split(None, 2)
         if len(parameters) < 3:
             error("@shader_program requires three arguments.")
-        print(parameters)
 
         shader_program_name = parameters[0]
 
@@ -140,8 +139,3 @@ namespace Shaders {
         file = open("shaders.cpp", "w")
         file.write(shader_source)
         file.close()
-
-
-    # dstPath, dstFilename = os.path.split(dstPath)
-    # tmpFilename, ext = os.path.splitext(dstFilename)
-    # tmpFilename += '.temp'

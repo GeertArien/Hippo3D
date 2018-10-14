@@ -104,7 +104,7 @@ App::App() :
 	renderer_.Setup(scene_);
 
 #if EMSCRIPTEN
-	emscripten_set_main_loop_arg(ExecuteMainLoop, this, 60, 1);
+	emscripten_set_main_loop_arg(ExecuteMainLoop, this, 0, 1);
 #else
 	while(!window_.ShouldClose()) {
 		MainLoop();
