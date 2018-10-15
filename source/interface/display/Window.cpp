@@ -11,10 +11,11 @@ namespace Display {
 
 Window::Window(int width, int height, const std::string& title) {
 	glfwInit();
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
-	glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_ES_API);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_ES_API);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+//	glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_ES_API);
+//	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_ES_API);
 
 	glfw_window_ = glfwCreateWindow(width, height, title.c_str(), nullptr, nullptr);
 	if (glfw_window_ == nullptr)	{

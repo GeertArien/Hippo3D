@@ -3,14 +3,17 @@
 
 layout(location = 0) in vec3 attr_vertex;
 
-layout(std140, binding = 0) uniform matrix_state {
-   mat4 model;
-   mat4 view;
-   mat4 projection;
-} matrix;
+layout(std140) uniform pv {
+    mat4 projection;
+    mat4 view;
+};
+
+layout(std140) uniform m {
+    mat4 model;
+};
 
 void main() {
-    gl_Position = matrix.projection * matrix.view * matrix.model * vec4(attr_vertex, 1.0);
+    gl_Position = projection * view * model * vec4(attr_vertex, 1.0);
 }
 @end
 

@@ -15,6 +15,11 @@ namespace Mantis {
 
 	namespace GFX {
 
+		struct uniform_block {
+			unsigned int id;
+			unsigned int base;
+		};
+
 		class Renderer final {
 
 		public:
@@ -23,8 +28,10 @@ namespace Mantis {
 			void Render(Scene& scene, Camera& camera) const;
 
 		private:
-			std::map<unsigned int, unsigned int> vbo_map_;
+			std::map<unsigned int, unsigned int> vao_map_;
 			std::map<std::string, unsigned int> shader_map_;
+			std::map<std::string, uniform_block> uniform_block_map_;
+			unsigned int matrices;
 
 		};
 

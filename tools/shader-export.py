@@ -30,6 +30,7 @@ def getToolsBinPath() :
         error("Unknown host system {}".format(platform.system()))
     return path
 
+#-------------------------------------------------------------------------------
 def convertShader(shader_program, type, dstLanguage) :
     glslangTool = getToolsBinPath() + 'glslangvalidator'
     mantisSpirvCross = getToolsBinPath() + 'mantis-spirv-cross'
@@ -55,12 +56,15 @@ def convertShader(shader_program, type, dstLanguage) :
     file.close()
     return file_str
 
+#-------------------------------------------------------------------------------
 def ExtractVertexShader(shader_name, text) :
     return ExtractShader("@vert_shader", shader_name, text)
 
+#-------------------------------------------------------------------------------
 def ExtractFragmentShader(shader_name, text) :
     return ExtractShader("@frag_shader", shader_name, text)
 
+#-------------------------------------------------------------------------------
 def ExtractShader(shader_type, shader_name, text) :
     vert_shader_begin = re.search(r"(^|\s)" + re.escape(shader_type) + r"\s" + re.escape(shader_name) + r"\s", text)
 

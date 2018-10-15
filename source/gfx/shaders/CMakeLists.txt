@@ -5,9 +5,15 @@ set(SHADER_GEN_TOOL "${CMAKE_SOURCE_DIR}/tools/shader-export.py")
 set(OUTPUTS "${CMAKE_CURRENT_BINARY_DIR}/${SHADER_NAME}.h"
         "${CMAKE_CURRENT_BINARY_DIR}/${SHADER_NAME}.cpp")
 
+if(EMSCRIPTEN)
+    set(SHADER_LANG "glsl-100-es")
+else()
+    set(SHADER_LANG "glsl-330")
+endif(EMSCRIPTEN)
+
 add_custom_command(
         OUTPUT ${OUTPUTS}
-        COMMAND ${PYTHON_EXECUTABLE} ${SHADER_GEN_TOOL} -i ${SHADER_INPUT_FILE} -l glsl-100-es
+        COMMAND ${PYTHON_EXECUTABLE} ${SHADER_GEN_TOOL} -i ${SHADER_INPUT_FILE} -l ${SHADER_LANG}
         DEPENDS ${SHADER_GEN_TOOL} ${SHADER_INPUT_FILE}
         COMMENT "Generating code for ${SHADER_INPUT_FILE}."
 )
